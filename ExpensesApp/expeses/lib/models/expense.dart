@@ -8,27 +8,27 @@ final date=DateFormat.yMEd();
 
 
 enum Category { food, clothes, travel }
-const categoryIcons={
-  Category.food : Icons.lunch_dining,
-  Category.travel: Icons.flight_land_outlined,
-  Category.clothes:Icons.videogame_asset_off_sharp,
-};
+//const categoryIcons={
+ // Category.food : Icons.lunch_dining,
+ // Category.travel: Icons.flight_land_outlined,
+//  Category.clothes:Icons.videogame_asset_off_sharp,
+//};
 
-class Expense {
+abstract class Expense {
   final String product;
-  final String id;
   final double amount;
   //int quantity;
-  Category category;
   final DateTime purchasedate;
+IconData get icon;
+String get category;
 
   String changeFormat(){
     return date.format(purchasedate); 
   }
   Expense(
-      {required this.category,
+      {
       required this.product,
       required this.amount,
       required this.purchasedate})
-      : id = ob.v1();
+      ;
 }

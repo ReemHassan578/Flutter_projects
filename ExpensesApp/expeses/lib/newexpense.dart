@@ -1,10 +1,19 @@
-import 'dart:developer';
 
+
+import 'package:expeses/models/clothes.dart';
+import 'package:expeses/models/expense.dart';
+import 'package:expeses/models/food.dart';
+import 'package:expeses/models/travel.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class NewExpense extends StatefulWidget {
+  final void Function(Expense ex) addExpense;
+
+
   const NewExpense({
+    required this.addExpense,
+    
     super.key,
   });
 
@@ -16,7 +25,8 @@ class _NewExpenseState extends State<NewExpense> {
   DateTime? date;
   final title = TextEditingController();
   final amount = TextEditingController();
-  final obDF=DateFormat.yMd();
+  final obDF = DateFormat.yMd();
+  Category? category;
   @override
   void dispose() {
     super.dispose();
@@ -54,34 +64,51 @@ class _NewExpenseState extends State<NewExpense> {
               const Spacer(),
               Row(
                 children: [
-                   Text(date==null ? 'Choose Date' : obDF.format(date!)),
+                  Text(date == null ? 'Choose Date' : obDF.format(date!)),
                   IconButton(
                       icon: const Icon(Icons.calendar_month_outlined),
                       onPressed: () {
-                        final now= DateTime.now();
-                        final iDate = DateTime(now.year-1);
-                        final  lDate = DateTime(now.year+5); 
+                        final now = DateTime.now();
+                        final iDate = DateTime(now.year - 1);
+                        final lDate = DateTime(now.year + 5);
                         showDatePicker(
 
-                            context: context,
-                            initialDate: now,
-                            firstDate: iDate,
-                            lastDate: lDate).then((value) {
-                              setState(() {
-                                date=value;
-                              });
-                            },);
+                                context: context,
+                                initialDate: now,
+                                firstDate: iDate,
+                                lastDate: lDate)
+                            .then(
+                          (value) {
+                            setState(() {
+                              date = value;
+                            });
+                          },
+                        );
                       }),
                 ],
               ),
             ],
           ),
           const SizedBox(
-            height: 100,
+            height: 30,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              DropdownButton(
+                  value: category,
+                  items: [
+                    ...Category.values.map((e) => DropdownMenuItem(
+                          value: e,
+                          child: Text(e.name),
+                        ))
+                  ],
+                  onChanged: (value) {
+                    setState(() {
+                      category = value;
+                    });
+                  }),
+              const Spacer(),
               ElevatedButton(
                   onPressed: () {
                     Navigator.of(context).pop();
@@ -89,8 +116,7 @@ class _NewExpenseState extends State<NewExpense> {
                   child: const Text('Cancel')),
               ElevatedButton(
                   onPressed: () {
-                    log(amount.text);
-                    log(title.text);
+                    valid(context);
                   },
                   child: const Text('Save Expense')),
             ],
@@ -98,5 +124,45 @@ class _NewExpenseState extends State<NewExpense> {
         ],
       ),
     );
+  }
+
+  void valid(BuildContext cntx) {
+   
+    final double? enteredAmount = double.tryParse(amount.text);
+   String mError='';
+    if (title.text.trim().isEmpty) {
+      mError+='enter title\n';
+      
+    }
+    if(date== null) {mError+='choose date\n';}
+    if(category==null){mError+='choose category\n';}
+    if (amount.text.trim().isEmpty) {
+      mError+='enter amount\n';
+    } else if (enteredAmount == null || enteredAmount <= 0) {
+      mError+='enter proper amount\n';
+    }
+    if(mError!=''){
+showDialog(barrierDismissible:false ,context: cntx, builder: (context) {
+        return AlertDialog(title: Text(mError) ,
+          actions: [
+            ElevatedButton(
+                  onPressed: () {
+                   Navigator.of(context).pop();
+                  },
+                  child: const Text('OK')),
+
+          ],);
+      });
+    }
+    else {
+      switch(category!)
+      {
+        case Category.food :widget.addExpense(Food(product: title.text, amount: enteredAmount!, purchasedate: date!));
+        case Category.clothes :widget.addExpense(Clothes(product: title.text, amount: enteredAmount!, purchasedate: date!));
+        case Category.travel :widget.addExpense(Travel(product: title.text, amount: enteredAmount!, purchasedate: date!));
+
+      }
+      Navigator.of(cntx).pop();
+    }
   }
 }

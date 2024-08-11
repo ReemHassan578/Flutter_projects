@@ -2,6 +2,11 @@ import 'package:flutter/material.dart';
 
 import 'home.dart';
 
+ColorScheme colorscheme =
+    ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 2, 24, 39));
+
+ColorScheme darkcolorscheme =
+    ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 2, 24, 39));
 void main() {
   runApp(const MyApp());
 }
@@ -13,12 +18,56 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+      themeMode: ThemeMode.light,
+      theme: ThemeData().copyWith(
+        colorScheme: colorscheme,
         useMaterial3: true,
-        
-      ),debugShowCheckedModeBanner: false,
+        appBarTheme: const AppBarTheme().copyWith(
+            backgroundColor: colorscheme.onPrimaryContainer,
+            foregroundColor: colorscheme.primaryContainer),
+        cardTheme: const CardTheme().copyWith(
+          color: colorscheme.secondaryContainer,
+          margin: const EdgeInsets.all(2),
+        ),
+        bottomSheetTheme: const BottomSheetThemeData().copyWith(
+backgroundColor: darkcolorscheme.onPrimaryContainer,
+        )
+        ,
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+              backgroundColor: colorscheme.primaryContainer),
+        ),
+        textTheme: ThemeData().textTheme.copyWith(
+              titleLarge: TextStyle(
+                fontWeight: FontWeight.normal,
+                color: colorscheme.tertiary,
+                fontSize: 20,
+              ),
+            ),
+      ),darkTheme: ThemeData.dark().copyWith(
+        colorScheme: darkcolorscheme,
+        useMaterial3: true,
+        appBarTheme: const AppBarTheme().copyWith(
+            backgroundColor: darkcolorscheme.onPrimaryContainer,
+            foregroundColor: darkcolorscheme.primaryContainer),
+        cardTheme: const CardTheme().copyWith(
+          color: darkcolorscheme.secondaryContainer,
+          margin: const EdgeInsets.all(2),
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+              backgroundColor: darkcolorscheme.primaryContainer),
+        ),
+        textTheme: ThemeData().textTheme.copyWith(
+              titleLarge: TextStyle(
+                fontWeight: FontWeight.normal,
+                color: darkcolorscheme.tertiary,
+                fontSize: 20,
+              ),
+            ),
+      ),
       home: const Home(),
     );
   }
