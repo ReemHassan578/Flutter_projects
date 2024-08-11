@@ -1,10 +1,43 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 
+
+import 'chart.dart';
 import 'expenses_list.dart';
+import 'models/expense.dart';
+ import '../models/clothes.dart';
+import '../models/food.dart';
+import '../models/travel.dart';
 import 'newexpense.dart';
 
-class Home extends StatelessWidget {
-  const Home({super.key});
+class Home extends StatefulWidget {
+   const Home({super.key});
+
+  @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  final List<Expense> e=[
+Food( product: 'Chips', amount: 15.0, purchasedate: DateTime.now()),
+Clothes( product: 'Shirt', amount: 270.0, purchasedate: DateTime(2023)),
+Travel( product: 'Qatar', amount: 5000.0, purchasedate: DateTime(2019,9,30)),
+];
+
+ void addExpense(Expense ex){
+setState(() {
+   e.add(ex);
+});
+ 
+ 
+}
+
+ void removeExpense(Expense ex){
+setState(() {
+  e.remove(ex);
+});
+}
 
   @override
   Widget build(BuildContext context) {
@@ -13,28 +46,31 @@ class Home extends StatelessWidget {
         actions: [
           IconButton(
             icon: const Icon(Icons.add),
-            onPressed: () {
+            onPressed: () { 
               showModalBottomSheet(isDismissible:false ,
                   context: context,
                   builder: (cntx) {
-                    return   NewExpense();
+                    return   NewExpense(addExpense: addExpense );
                        
                   });
             },
           ),
         ],
-        title: const Text("Home Page"),
+        title: const Center(child:Text("Expense Tracker ")),
       ),
-      body: const Center(
+      body:  Center(
         child: Column(
           children: [
+            Chart()
+            ,
             Expanded(
-              child: ExpensesList(),
+              child: ExpensesList(e,removeExpense),
             ),
           ],
         ),
       ),
     );
   }
+  
 }
 
