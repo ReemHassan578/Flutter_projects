@@ -46,7 +46,8 @@ class _HomeState extends State<Home> {
             IconButton(
               icon: const Icon(Icons.add),
               onPressed: () {
-                showModalBottomSheet(
+                showModalBottomSheet(useSafeArea: true,
+                  isScrollControlled: true,
                     isDismissible: false,
                     context: context,
                     builder: (cntx) {
@@ -58,59 +59,64 @@ class _HomeState extends State<Home> {
           title: const Center(child: Text("Expense Tracker ")),
         ),
         body: Center(
-            child: Column(
-          children: [
-            Expanded(
-              child: //Chart()
-                  Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: BarChart(
-                  BarChartData(
-                    barGroups: [
-                      BarChartGroupData(x: 0, barRods: [
-                        BarChartRodData(toY: Clothes.total),
-                        
-                      ]),
-                      BarChartGroupData(x: 1, barRods: [
-                     
-                        BarChartRodData(toY: Food.total),
-                        
-                      ]),
-                      BarChartGroupData(x: 2, barRods: [
-                        
-                        BarChartRodData(toY: Travel.total),
-                      ]),
-                    ],
-                    titlesData: FlTitlesData(
-                      bottomTitles: AxisTitles(
-                        sideTitles: SideTitles(showTitles: true,  getTitlesWidget: (value, meta) {
-                         switch(value.toInt())
-                         {
-                          case 0 : return const Text('Clothes');
-                        case 1 :  return const Text('Food');
-                         case 2 : return const Text('Travel');
-                         default: return const Text('');
-                         }
+            child: OrientationBuilder(builder:(context, orientation) {
+             return orientation==Orientation.portrait ?  Column(
+                        children: mainContent(),
+                      ): Row(
+                        children: mainContent(),
+                      ) ;
+                      }
+            )));
+  }
+
+
+
+List<Widget> mainContent()
+{
+  return [
+              Expanded(
+                child: //Chart()
+                    Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: BarChart(
+                    BarChartData(
+                      barGroups: [
+                        BarChartGroupData(x: 0, barRods: [
+                          BarChartRodData(toY: Clothes.total),
                           
-                        },)
+                        ]),
+                        BarChartGroupData(x: 1, barRods: [
+                       
+                          BarChartRodData(toY: Food.total),
+                          
+                        ]),
+                        BarChartGroupData(x: 2, barRods: [
+                          
+                          BarChartRodData(toY: Travel.total),
+                        ]),
+                      ],
+                      titlesData: FlTitlesData(
+                        bottomTitles: AxisTitles(
+                          sideTitles: SideTitles(showTitles: true,  getTitlesWidget: (value, meta) {
+                           switch(value.toInt())
+                           {
+                            case 0 : return const Text('Clothes');
+                          case 1 :  return const Text('Food');
+                           case 2 : return const Text('Travel');
+                           default: return const Text('');
+                           }
+                            
+                          },)
+                        )
                       )
-                    )
+                    ),
+                    
                   ),
-                  
                 ),
               ),
-            ),
-            Expanded(
-              child: ExpensesList(e, removeExpense),
-            ),
-          ],
-        )));
-  }
+              Expanded(
+                child: ExpensesList(e, removeExpense),
+              ),
+                        ];
 }
-
-class ExpenseData {
-  final String cat;
-  final double total;
-
-  ExpenseData(this.cat, this.total);
 }

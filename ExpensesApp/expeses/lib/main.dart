@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'home.dart';
 
@@ -8,7 +9,14 @@ ColorScheme colorscheme =
 ColorScheme darkcolorscheme =
     ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 2, 24, 39));
 void main() {
-  runApp(const MyApp());
+  
+  //WidgetsFlutterBinding.ensureInitialized();
+  //SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then(
+ //   (value) => 
+ runApp(const MyApp());
+ //,
+  //);
+  
 }
 
 class MyApp extends StatelessWidget {
@@ -32,9 +40,8 @@ class MyApp extends StatelessWidget {
           margin: const EdgeInsets.all(2),
         ),
         bottomSheetTheme: const BottomSheetThemeData().copyWith(
-backgroundColor: darkcolorscheme.onPrimaryContainer,
-        )
-        ,
+          backgroundColor: darkcolorscheme.onPrimaryContainer,
+        ),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
               backgroundColor: colorscheme.primaryContainer),
@@ -46,7 +53,8 @@ backgroundColor: darkcolorscheme.onPrimaryContainer,
                 fontSize: 20,
               ),
             ),
-      ),darkTheme: ThemeData.dark().copyWith(
+      ),
+      darkTheme: ThemeData.dark().copyWith(
         colorScheme: darkcolorscheme,
         useMaterial3: true,
         appBarTheme: const AppBarTheme().copyWith(
