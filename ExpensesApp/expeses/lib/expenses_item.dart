@@ -44,11 +44,11 @@ class ExpensesItem extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.end,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Icon(ex.icon),
+                          Expanded(child: Icon(ex.icon)),
                           const SizedBox(
                             width: 5,
                           ),
-                          Text(ex.changeFormat()),
+                          Expanded(child: Text(ex.changeFormat())),
                         ],
                       ),
                     )
