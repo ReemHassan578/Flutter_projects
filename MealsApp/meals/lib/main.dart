@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:meals/screens/home.dart';
+
 import 'package:google_fonts/google_fonts.dart';
+import 'package:meals/screens/tabs_screen.dart';
+
 
 void main() {
   runApp(const MyApp());
@@ -19,7 +21,7 @@ class MyApp extends StatelessWidget {
         seedColor: Colors.deepPurple,
         brightness: Brightness.dark   
       )),
-      home: const Home(),
+      home: const TabsScreen(),
     );
   }
 }
