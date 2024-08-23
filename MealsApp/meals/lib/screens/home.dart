@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 import '../data/dummy_data.dart';
 import '../models/meal.dart';
 import '../widgets/category_grid_item.dart';
+import 'filters_screen.dart';
 
 class Home extends StatelessWidget {
     final Function(Meal item) toggleFav;
+   final Map<Filter,bool>? filter ;
 
-  const Home(this.toggleFav,{super.key, });
+  const Home(this.toggleFav,{this.filter,super.key, });
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +23,7 @@ class Home extends StatelessWidget {
           mainAxisSpacing: 2,
           
         ),
-        children:[ for(final i in availableCategories) CategoryGridItem(i,toggleFav) ]
+        children:[ for(final i in availableCategories) CategoryGridItem(i,toggleFav,filter:filter) ]
       ),
     );
   }
