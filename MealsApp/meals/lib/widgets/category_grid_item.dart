@@ -1,38 +1,29 @@
-
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meals/screens/meals_screen.dart';
 
-import '../data/dummy_data.dart';
 import '../models/category.dart';
 import '../models/meal.dart';
-import '../screens/filters_screen.dart';
+import '../providers/filters_provider.dart';
 
-class CategoryGridItem extends StatelessWidget {
+class CategoryGridItem extends ConsumerWidget {
   final Category cat;
-  final Map<Filter, bool>? filter;
-  const CategoryGridItem(this.cat, this.toggleFav, {this.filter, super.key});
-  final Function(Meal item) toggleFav;
+
+  const CategoryGridItem(this.cat, {super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ref) {
+    List<Meal> filteredMeals = ref.watch(selectedMealsProvider);
     return InkWell(
       onTap: () {
-        List<Meal> lis = dummyMeals.where((element) {
-          return element.categories.contains(cat.id);
-        }).toList();
-        List<Meal> lisF = filter == null
-            ? lis
-            : lis.where((element) {
-                  if(filter![Filter.gluten]! &&  !element.isGlutenFree) {return false;}
-                   if (filter![Filter.lactose]! && !element.isLactoseFree ){return false;}
-                  if(filter![Filter.vegan]! && !element.isVegan ){return false;}
-                  if (filter![Filter.vegetarian]! && !element.isVegetarian){return false;}
-                   return true;
-                    
-              }).toList();
+        List<Meal> lisF = filteredMeals.where(
+          (element) {
+            return element.categories.contains(cat.id);
+          },
+        ).toList();
         Navigator.of(context).push(MaterialPageRoute(
           builder: (ctx) {
-            return MealsScreen(lisF, toggleFav, title: cat.name);
+            return MealsScreen(lisF, title: cat.name);
           },
         ));
       },

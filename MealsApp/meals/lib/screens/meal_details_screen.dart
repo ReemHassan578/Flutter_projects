@@ -1,23 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:transparent_image/transparent_image.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../models/meal.dart';
+import '../providers/favorites_provider.dart';
 
-class MealDetailsScreen extends StatelessWidget {
+class MealDetailsScreen extends ConsumerWidget {
   final Meal item;
-  const MealDetailsScreen(this.item, this.addfav, {super.key});
-  final Function(Meal item) addfav;
- 
+  const MealDetailsScreen(this.item, {super.key});
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ref) {
+    final List<Meal> curFav=ref.watch(favoriteMealsProvider);
+    final bool isFavorite= curFav.contains(item);
     return Scaffold(
       appBar: AppBar(
         title: Text(item.name),
         actions: [
           IconButton(
             onPressed: () {
-              addfav(item);},
-            icon: const Icon(Icons.favorite,),
+              bool add =
+                  ref.read(favoriteMealsProvider.notifier).toggleFav(item);
+              ScaffoldMessenger.of(context).clearSnackBars();
+              SnackBar infobar = SnackBar(
+                content: Text(add
+                    ? '${item.name}  is added to  favorites'
+                    : '${item.name} is removed from favorites'),
+              );
+              ScaffoldMessenger.of(context).showSnackBar(infobar);
+            },
+            icon:  Icon(isFavorite ?
+              Icons.favorite: Icons.favorite_border
+            ),
           ),
         ],
       ),
@@ -47,7 +61,7 @@ class MealDetailsScreen extends StatelessWidget {
                       color: Theme.of(context).colorScheme.onPrimaryContainer,
                     ),
               ),
-              const SizedBox(
+            const SizedBox(
               height: 24,
             ),
             Text('Steps',
