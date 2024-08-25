@@ -47,7 +47,7 @@ class MealItem extends StatelessWidget {
                 ),
               ],
             ),
-            Container(color:Colors.white,padding: EdgeInsets.all(10),
+            Container(color:Colors.white,padding: const EdgeInsets.all(10),
               child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround
                 ,children: [
               Row(children: [const Icon(Icons.access_time_outlined,color: Colors.black,),const SizedBox(width:5),Text('${item.duration} min')],),

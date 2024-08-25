@@ -11,9 +11,9 @@ class MealsScreen extends StatelessWidget {
  
   final String? title;
   final List<Meal> list;
-    final Function(Meal item) togglefav;
 
-   const MealsScreen(   this.list,this.togglefav, {this.title,super.key});
+
+   const MealsScreen(   this.list, {this.title,super.key});
 
 
 
@@ -30,7 +30,7 @@ class MealsScreen extends StatelessWidget {
          
         return  MealItem(list[index],(Meal item){
           Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-          return MealDetailsScreen(item,togglefav);
+          return MealDetailsScreen(item);
         },));
         });
        
