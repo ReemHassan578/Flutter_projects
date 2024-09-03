@@ -20,9 +20,8 @@ import 'home.dart';
 class TabsScreen extends ConsumerWidget {
   const TabsScreen({super.key});
 
-
   @override
-  Widget build(BuildContext context,ref) {
+  Widget build(BuildContext context, ref) {
     final List<Meal> fav = ref.watch(favoriteMealsProvider);
     final int curScreen = ref.watch(navigationBarProvider);
     return Scaffold(

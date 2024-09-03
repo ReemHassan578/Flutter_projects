@@ -6,13 +6,14 @@ import '../models/meal.dart';
 import '../providers/favorites_provider.dart';
 
 class MealDetailsScreen extends ConsumerWidget {
+  // late AnimationController anCon;
   final Meal item;
   const MealDetailsScreen(this.item, {super.key});
 
   @override
   Widget build(BuildContext context, ref) {
-    final List<Meal> curFav=ref.watch(favoriteMealsProvider);
-    final bool isFavorite= curFav.contains(item);
+    final List<Meal> curFav = ref.watch(favoriteMealsProvider);
+    final bool isFavorite = curFav.contains(item);
     return Scaffold(
       appBar: AppBar(
         title: Text(item.name),
@@ -29,8 +30,12 @@ class MealDetailsScreen extends ConsumerWidget {
               );
               ScaffoldMessenger.of(context).showSnackBar(infobar);
             },
-            icon:  Icon(isFavorite ?
-              Icons.favorite: Icons.favorite_border
+            icon: AnimatedSwitcher( 
+              duration: const Duration(seconds: 1),
+              transitionBuilder: (child, animation) {
+                return RotationTransition(turns: Tween<double>(begin:0.8,end: 1).animate(animation),child: child);
+              },
+              child: Icon(isFavorite ? Icons.star : Icons.star_border,key: ValueKey(isFavorite)),
             ),
           ),
         ],
@@ -38,11 +43,14 @@ class MealDetailsScreen extends ConsumerWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            FadeInImage(
-              placeholder: MemoryImage(kTransparentImage),
-              image: NetworkImage(item.imageUrl),
-              fit: BoxFit.cover,
-              width: double.infinity,
+            Hero(
+              tag: item.id,
+              child: FadeInImage(
+                placeholder: MemoryImage(kTransparentImage),
+                image: NetworkImage(item.imageUrl),
+                fit: BoxFit.cover,
+                width: double.infinity,
+              ),
             ),
             const SizedBox(
               height: 14,

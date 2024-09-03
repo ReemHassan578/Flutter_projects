@@ -6,8 +6,7 @@ class FilterItem extends StatelessWidget {
   final bool pressed;
   final Function(bool) onpressed;
 
- const  FilterItem(this.pressed, 
-   this.onpressed,
+  const FilterItem(this.pressed, this.onpressed,
       {super.key, required this.title, required this.subTitle});
 
   @override
@@ -16,13 +15,13 @@ class FilterItem extends StatelessWidget {
       value: pressed,
       onChanged: (value) {
         onpressed(value);
-    
       },
       title: Text(title,
           style: Theme.of(context).textTheme.titleLarge!.copyWith(
                 color: Theme.of(context).colorScheme.onPrimaryContainer,
               )),
-      subtitle: Text(subTitle,style: Theme.of(context).textTheme.labelMedium!.copyWith(
+      subtitle: Text(subTitle,
+          style: Theme.of(context).textTheme.labelMedium!.copyWith(
                 color: Theme.of(context).colorScheme.onPrimaryContainer,
               )),
     );
