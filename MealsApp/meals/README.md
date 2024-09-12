@@ -1,6 +1,6 @@
 # Meals App
 
-Showing expenses of the  user . Each expense will be added with its title , amount and purchase date then drawing a bar chart 
+Using Provider to manage states of the app which is filter meals and display the rest each with its details and some animation .
 
 ## This project is a starting point for learning how to use
 ## GridView 
