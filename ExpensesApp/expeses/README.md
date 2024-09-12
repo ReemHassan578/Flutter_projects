@@ -13,3 +13,5 @@ Showing expenses of the  user . Each expense will be added with its title , amou
 ## Dismissible
 ## Themes
 ## BarChart
+## Responsive app
+## Adaptive app
