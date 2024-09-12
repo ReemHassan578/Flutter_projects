@@ -1,6 +1,6 @@
 # Places App
 
-Using Provider to manage states of the app which is filter meals and display the rest each with its details and some animation .
+Using native mobile features (Camera – gallery – location ) to save user’s places 
 
 ## This project is a starting point for learning how to use
 ## ImagePicker 
