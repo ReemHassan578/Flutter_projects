@@ -21,7 +21,7 @@ class _LocationContainerState extends State<LocationContainer> {
 
   void getAddress() async {
     final uri = Uri.parse(
-        'https://maps.googleapis.com/maps/api/geocode/json?latlng=${locationData!.latitude},${locationData!.longitude}&key=AIzaSyBiDSOSh87L2SFBFM-im7UjuLkQ9gd1e3w');
+        'https://maps.googleapis.com/maps/api/geocode/json?latlng=${locationData!.latitude},${locationData!.longitude}&key=');
     final http.Response res = await http.get(uri);
 
     if (res.statusCode == 200) {
@@ -43,7 +43,7 @@ class _LocationContainerState extends State<LocationContainer> {
 
   String get locationImage {
     if(locationData==null || address == null) return '';
-    return 'https://maps.googleapis.com/maps/api/staticmap?center=${locationData!.latitude},${locationData!.longitude}&zoom=16&size=600x300&maptype=roadmap&markers=color:red%7Clabel:A%7C${locationData!.latitude},${locationData!.longitude}&key=AIzaSyBiDSOSh87L2SFBFM-im7UjuLkQ9gd1e3w';
+    return 'https://maps.googleapis.com/maps/api/staticmap?center=${locationData!.latitude},${locationData!.longitude}&zoom=16&size=600x300&maptype=roadmap&markers=color:red%7Clabel:A%7C${locationData!.latitude},${locationData!.longitude}&key=';
   }
 
   void getCurrent() async {
