@@ -2,48 +2,50 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:http/http.dart' as http;
 import 'package:places/models/place.dart';
 
 class LocationContainer extends StatefulWidget {
   final void Function(PlaceLocation) pl;
-  const LocationContainer(this.pl, {super.key});
+  //final LatLng? pos;
+  final Future<LatLng?> Function() choosePlace;
+  const LocationContainer(this.pl, this.choosePlace, {super.key});
 
   @override
   State<LocationContainer> createState() => _LocationContainerState();
 }
 
 class _LocationContainerState extends State<LocationContainer> {
-  LocationData? locationData;
+  //LocationData? locationData;
+  PlaceLocation? pickedPlace;
   bool isLoading = false;
   String? address;
 
-  void getAddress() async {
+  void getAddress(double long, double lat) async {
     final uri = Uri.parse(
-        'https://maps.googleapis.com/maps/api/geocode/json?latlng=${locationData!.latitude},${locationData!.longitude}&key=');
+        'https://maps.googleapis.com/maps/api/geocode/json?latlng=$lat,$long&key=AIzaSyBiDSOSh87L2SFBFM-im7UjuLkQ9gd1e3w');
     final http.Response res = await http.get(uri);
 
     if (res.statusCode == 200) {
       final resData = json.decode(res.body);
       setState(() {
         address = resData['results'][0]['formatted_address'];
+        pickedPlace = PlaceLocation(address: address!, lng: long, lat: lat);
         isLoading = false;
       });
-
-      widget.pl(PlaceLocation(
-          address: address!,
-          lng: locationData!.longitude!,
-          lat: locationData!.latitude!,
-          mapImage: locationImage,
-          ));
-
+      savePlace();
     }
   }
 
+  savePlace() {
+    widget.pl(pickedPlace!);
+  }
+
   String get locationImage {
-    if(locationData==null || address == null) return '';
-    return 'https://maps.googleapis.com/maps/api/staticmap?center=${locationData!.latitude},${locationData!.longitude}&zoom=16&size=600x300&maptype=roadmap&markers=color:red%7Clabel:A%7C${locationData!.latitude},${locationData!.longitude}&key=';
+    if (pickedPlace == null || address == null) return '';
+    return 'https://maps.googleapis.com/maps/api/staticmap?center=${pickedPlace!.lat},${pickedPlace!.lng}&zoom=16&size=600x300&maptype=roadmap&markers=color:red%7Clabel:A%7C${pickedPlace!.lat},${pickedPlace!.lng}&key=...';
   }
 
   void getCurrent() async {
@@ -68,12 +70,15 @@ class _LocationContainerState extends State<LocationContainer> {
     setState(() {
       isLoading = true;
     });
-    locationData = await location.getLocation();
+    LocationData locationData = await location.getLocation();
 
-    if (locationData == null) {
-      return;
-    }
-    getAddress();
+    /* pickedPlace = PlaceLocation(
+        address: address!,
+        lng: locationData.longitude!,
+        lat: locationData.latitude!,
+        mapImage: locationImage);*/
+
+    getAddress(locationData.longitude!, locationData.latitude!);
   }
 
   @override
@@ -85,9 +90,11 @@ class _LocationContainerState extends State<LocationContainer> {
           width: double.infinity,
           decoration: BoxDecoration(border: Border.all()),
           alignment: Alignment.center,
-          child: isLoading == true ?const Center(child: CircularProgressIndicator()):
-               address == null ?const Text('No location Chosen') : Image.network(locationImage)
-             ,
+          child: isLoading == true
+              ? const Center(child: CircularProgressIndicator())
+              : address == null
+                  ? const Text('No location Chosen')
+                  : Image.network(locationImage),
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -102,11 +109,21 @@ class _LocationContainerState extends State<LocationContainer> {
             Expanded(
                 child: TextButton.icon(
                     icon: const Icon(Icons.map),
-                    onPressed: () {},
+                    onPressed: () {
+                      pickLocation();
+                    },
                     label: const Text('Select on Map')))
           ],
         )
       ],
     );
+  }
+
+  void pickLocation() async {
+    final LatLng? pos = await widget.choosePlace();
+    if (pos == null) return;
+    log('location');
+
+    getAddress(pos.longitude, pos.latitude);
   }
 }

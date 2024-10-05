@@ -11,6 +11,10 @@ class PlaceDetails extends StatelessWidget {
 
   const PlaceDetails({super.key, required this.place});
 
+  String get locationImage {
+    return 'https://maps.googleapis.com/maps/api/staticmap?center=${place.placeLocation.lat},${place.placeLocation.lng}&zoom=16&size=600x300&maptype=roadmap&markers=color:red%7Clabel:A%7C${place.placeLocation.lat},${place.placeLocation.lng}&key=..';
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,13 +34,19 @@ class PlaceDetails extends StatelessWidget {
           right: 0,
           child: Column(
             children: [
-              InkWell(onTap:(){
-                Navigator.of(context).push(MaterialPageRoute(builder: (context) => MapScreen(placeLocation: place.placeLocation ,isSelecting: false,),));
-              },
+              InkWell(
+                  onTap: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => MapScreen(
+                        placeLocation: place.placeLocation,
+                        isSelecting: false,
+                      ),
+                    ));
+                  },
                   child: CircleAvatar(
-                radius: 40,
-                backgroundImage: NetworkImage(place.placeLocation.mapImage),
-              )),
+                    radius: 40,
+                    backgroundImage: NetworkImage(locationImage),
+                  )),
               Container(
                 padding: const EdgeInsets.all(8),
                 decoration: const BoxDecoration(
