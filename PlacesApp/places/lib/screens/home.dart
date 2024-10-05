@@ -7,33 +7,72 @@ import '../widgets/places_list.dart';
 import 'add_place.dart';
 import 'place_details.dart';
 
-
-class Home extends ConsumerWidget {
-  const Home({super.key}); 
- 
- clickPlace(BuildContext cntx,Place place){
- Navigator.of(cntx).push(MaterialPageRoute(builder: (context) {
-              return  PlaceDetails(place:place);
-            },)); }
+class Home extends ConsumerStatefulWidget {
+  const Home({super.key});
 
   @override
-  Widget build(BuildContext context,ref) {
-    final List<Place> list=ref.watch(listProvider);
+  ConsumerState<Home> createState() => _HomeState();
+}
+
+class _HomeState extends ConsumerState<Home> {
+  late bool isLoading;
+  Future<void>? loadedPlaces;
+  clickPlace(BuildContext cntx, Place place) {
+    Navigator.of(cntx).push(MaterialPageRoute(
+      builder: (context) {
+        return PlaceDetails(place: place);
+      },
+    ));
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    loadedPlaces = ref.read(listProvider.notifier).loadPlace();
+    // loadData();
+  }
+
+  /*Future<void> loadData() async {
+    setState(() {
+      isLoading = true;
+    });
+    await ref.read(listProvider.notifier).loadPlace();
+    setState(() {
+      isLoading = false;
+    });
+  }*/
+
+  @override
+  Widget build(BuildContext context) {
+    final List<Place> list = ref.watch(listProvider);
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Your Places'),
-        actions: [
-          IconButton(
-            onPressed: () {
-              Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-              return const AddPlace();
-            },));
-            },
-            icon: const Icon(Icons.add),
-          ),
-        ],
-      ),
-      body: PlacesList(list,clickPlace),
-    );
+        appBar: AppBar(
+          title: const Text('Your Places'),
+          actions: [
+            IconButton(
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) {
+                    return const AddPlace();
+                  },
+                ));
+              },
+              icon: const Icon(Icons.add),
+            ),
+          ],
+        ),
+        body: FutureBuilder(
+          future: loadedPlaces,
+          builder: (context, snapshot) {
+            return snapshot.connectionState == ConnectionState.waiting
+                ? const Center(child: CircularProgressIndicator())
+                : PlacesList(list, clickPlace);
+          },
+        )
+
+        //isLoading
+        //  ? const Center(child: CircularProgressIndicator())
+        //: PlacesList(list, clickPlace),
+        );
   }
 }
