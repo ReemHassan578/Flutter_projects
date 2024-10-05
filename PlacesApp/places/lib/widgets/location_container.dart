@@ -25,7 +25,7 @@ class _LocationContainerState extends State<LocationContainer> {
 
   void getAddress(double long, double lat) async {
     final uri = Uri.parse(
-        'https://maps.googleapis.com/maps/api/geocode/json?latlng=$lat,$long&key=AIzaSyBiDSOSh87L2SFBFM-im7UjuLkQ9gd1e3w');
+        'https://maps.googleapis.com/maps/api/geocode/json?latlng=$lat,$long&key=...');
     final http.Response res = await http.get(uri);
 
     if (res.statusCode == 200) {
