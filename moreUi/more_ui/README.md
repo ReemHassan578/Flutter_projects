@@ -33,6 +33,6 @@ This project is a starting point for learning more ui in flutter
 - Google Nav Bar
 
 - ![Demo](nav.gif)
-- [Watch the video](https://drive.google.com/file/d/1pUYD0xXRbPQs43iS5hLjTqkKvDTUsYh_/view?usp=drive_link)
+- [Demo for Page View](https://drive.google.com/file/d/1pUYD0xXRbPQs43iS5hLjTqkKvDTUsYh_/view?usp=drive_link)
 
 

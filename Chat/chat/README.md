@@ -1,16 +1,19 @@
-# chat
+# Group chat app 
 
-A new Flutter project.
+each user should has email to login in or sign up with a new email using firebase authentication 
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+This project is a starting point for 
+- connecting app to firebase
+- firebase authentication
+- cloud firestore
+- firebase storage
 
-A few resources to get you started if this is your first Flutter project:
+[demo video](https://drive.google.com/file/d/1Kh6qhlqCHFBmUYI0NFVDgF6Kj2spsVB0/view?usp=drive_link)
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+![alt text](image-1.png)
+![alt text](image-3.png)
+![alt text](image.png)
+![alt text](image-2.png)
+![alt text](image-4.png)
