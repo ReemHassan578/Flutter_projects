@@ -9,14 +9,12 @@ ColorScheme colorscheme =
 ColorScheme darkcolorscheme =
     ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 2, 24, 39));
 void main() {
-  
   //WidgetsFlutterBinding.ensureInitialized();
   //SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then(
- //   (value) => 
- runApp(const MyApp());
- //,
+  //   (value) =>
+  runApp(const MyApp());
+  //,
   //);
-  
 }
 
 class MyApp extends StatelessWidget {
@@ -40,11 +38,10 @@ class MyApp extends StatelessWidget {
           margin: const EdgeInsets.all(2),
         ),
         bottomSheetTheme: const BottomSheetThemeData().copyWith(
-          backgroundColor: darkcolorscheme.onPrimaryContainer,
+          backgroundColor: colorscheme.primaryContainer,
         ),
         elevatedButtonTheme: ElevatedButtonThemeData(
-          style: ElevatedButton.styleFrom(
-              backgroundColor: colorscheme.primaryContainer),
+          style: ElevatedButton.styleFrom(backgroundColor: colorscheme.primary),
         ),
         textTheme: ThemeData().textTheme.copyWith(
               titleLarge: TextStyle(

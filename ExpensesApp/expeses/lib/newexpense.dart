@@ -47,47 +47,55 @@ class _NewExpenseState extends State<NewExpense> {
                   label: Text("Expense Name"),
                 ),
               ),
-              LayoutBuilder(builder: (context, constraints) { 
-                return Row(
-                  children: [
-                    Expanded(
-                      child: TextField(
-                        controller: amount,
-                        keyboardType: TextInputType.number,
-                        decoration:  InputDecoration(
-                          prefixText: '\$',
-                          hintText: 'Add Expense Amount',
-                          label: Text('Expense Amount',style:  TextStyle(fontSize: constraints.maxWidth * 0.035)),
+              LayoutBuilder(
+                builder: (context, constraints) {
+                  return Row(
+                    children: [
+                      Expanded(
+                        child: TextField(
+                          controller: amount,
+                          keyboardType: TextInputType.number,
+                          decoration: InputDecoration(
+                            prefixText: '\$',
+                            hintText: 'Add Expense Amount',
+                            label: Text('Expense Amount',
+                                style: TextStyle(
+                                    fontSize: constraints.maxWidth * 0.035)),
+                          ),
                         ),
                       ),
-                    ),
-                    const Spacer(),
-                    Row(
-                      children: [
-                        Text(date == null ? 'Choose Date' : obDF.format(date!),style:  TextStyle(color: Colors.white60,fontSize: constraints.maxWidth * 0.035)),
-                        IconButton(
-                            icon: const Icon(Icons.calendar_month_outlined),
-                            onPressed: () {
-                              final now = DateTime.now();
-                              final iDate = DateTime(now.year - 1);
-                              final lDate = DateTime(now.year + 5);
-                              showDatePicker(
-                                      context: context,
-                                      initialDate: now,
-                                      firstDate: iDate,
-                                      lastDate: lDate)
-                                  .then(
-                                (value) {
-                                  setState(() {
-                                    date = value;
-                                  });
-                                },
-                              );
-                            }),
-                      ],
-                    ),
-                  ],
-                );},
+                      const Spacer(),
+                      Row(
+                        children: [
+                          Text(
+                              date == null ? 'Choose Date' : obDF.format(date!),
+                              style: TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: constraints.maxWidth * 0.035)),
+                          IconButton(
+                              icon: const Icon(Icons.calendar_month_outlined),
+                              onPressed: () {
+                                final now = DateTime.now();
+                                final iDate = DateTime(now.year - 1);
+                                final lDate = DateTime(now.year + 5);
+                                showDatePicker(
+                                        context: context,
+                                        initialDate: now,
+                                        firstDate: iDate,
+                                        lastDate: lDate)
+                                    .then(
+                                  (value) {
+                                    setState(() {
+                                      date = value;
+                                    });
+                                  },
+                                );
+                              }),
+                        ],
+                      ),
+                    ],
+                  );
+                },
               ),
               const SizedBox(
                 height: 30,
@@ -102,7 +110,11 @@ class _NewExpenseState extends State<NewExpense> {
                           items: [
                             ...Category.values.map((e) => DropdownMenuItem(
                                   value: e,
-                                  child: Text(e.name,style:  TextStyle(color: Colors.white60,fontSize: constraints.maxWidth * 0.035)),
+                                  child: Text(e.name,
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize:
+                                              constraints.maxWidth * 0.035)),
                                 ))
                           ],
                           onChanged: (value) {
@@ -113,12 +125,17 @@ class _NewExpenseState extends State<NewExpense> {
                     ),
 //Expanded(child: SizedBox(width:constraints.maxWidth*0.1)),
                     Expanded(
-                      child: ElevatedButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                          child: const Text('Cancel')),
-                    ),
+                        child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: Text(
+                        'Cancel',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: constraints.maxWidth * 0.035),
+                      ),
+                    )),
                     Expanded(
                       child: ElevatedButton(
                           onPressed: () {
@@ -128,6 +145,7 @@ class _NewExpenseState extends State<NewExpense> {
                             'Save Expense',
                             textAlign: TextAlign.center,
                             style: TextStyle(
+                                color: Colors.white,
                                 fontSize: constraints.maxWidth * 0.035),
                           )),
                     ),
@@ -170,7 +188,10 @@ class _NewExpenseState extends State<NewExpense> {
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
-                    child: const Text('OK')),
+                    child: const Text(
+                      'OK',
+                      style: TextStyle(color: Colors.white),
+                    )),
               ],
             );
           });
