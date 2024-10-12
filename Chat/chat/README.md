@@ -11,7 +11,7 @@ each user should has email to login in or sign up with a new email using firebas
 
 [demo video](https://drive.google.com/file/d/1Kh6qhlqCHFBmUYI0NFVDgF6Kj2spsVB0/view?usp=drive_link)
 
-![alt text](image-5.png)
+![alt text](image-7.png)
 ![alt text](image-6.png)
 ![alt text](image.png)
 ![alt text](image-2.png)
