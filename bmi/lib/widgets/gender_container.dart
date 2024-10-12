@@ -30,7 +30,7 @@ class GenderContainer extends StatelessWidget {
             ),
             Text(
               type,
-              style: Theme.of(context).textTheme.headlineMedium,
+              style: Theme.of(context).textTheme.titleLarge,
             )
           ],
         ),

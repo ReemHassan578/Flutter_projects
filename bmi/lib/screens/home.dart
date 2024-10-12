@@ -68,30 +68,37 @@ class _HomeState extends State<Home> {
                   color: Theme.of(context).colorScheme.secondary,
                   child: Column(
                     children: [
-                      Text(
-                        'Height',
-                        style: Theme.of(context).textTheme.headlineMedium,
+                      Expanded(
+                        child: Text(
+                          'Height',
+                          style: Theme.of(context).textTheme.titleLarge,
+                        ),
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text('${height.ceilToDouble()}',
-                              style: const TextStyle(fontSize: 50)),
-                          Text(
-                            ' cm',
-                            style: Theme.of(context).textTheme.headlineMedium,
-                          ),
-                        ],
+                      Expanded(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text('${height.ceilToDouble()}',
+                                style:
+                                    Theme.of(context).textTheme.headlineLarge),
+                            Text(
+                              ' cm',
+                              style: Theme.of(context).textTheme.titleLarge,
+                            ),
+                          ],
+                        ),
                       ),
-                      Slider(
-                        max: 200,
-                        min: 0,
-                        value: height,
-                        onChanged: (value) {
-                          setState(() {
-                            height = value;
-                          });
-                        },
+                      Expanded(
+                        child: Slider(
+                          max: 200,
+                          min: 0,
+                          value: height,
+                          onChanged: (value) {
+                            setState(() {
+                              height = value;
+                            });
+                          },
+                        ),
                       )
                     ],
                   )),

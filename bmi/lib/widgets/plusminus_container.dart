@@ -22,27 +22,34 @@ class PlusMinusContainer extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              text,
-              style: Theme.of(context).textTheme.headlineMedium,
+            Expanded(
+              child: Text(
+                text,
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
             ),
-            Text(
-              '$value',
-              style: const TextStyle(fontSize: 40),
+            Expanded(
+              child: Text(
+                '$value',
+                style: Theme.of(context).textTheme.headlineLarge,
+              ),
             ),
             SizedBox(height: 5),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                IconButton.filled(
-                    alignment: Alignment.center,
-                    onPressed: subtract,
-                    icon: const Icon(
-                      Icons.minimize_rounded,
-                    )),
-                SizedBox(width: 5),
-                IconButton.filled(onPressed: add, icon: const Icon(Icons.add)),
-              ],
+            Expanded(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  IconButton.filled(
+                      alignment: Alignment.center,
+                      onPressed: subtract,
+                      icon: const Icon(
+                        Icons.minimize_rounded,
+                      )),
+                  SizedBox(width: 5),
+                  IconButton.filled(
+                      onPressed: add, icon: const Icon(Icons.add)),
+                ],
+              ),
             )
           ],
         ));
