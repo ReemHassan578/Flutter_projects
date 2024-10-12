@@ -32,7 +32,7 @@ This project is a starting point for learning more ui in flutter
 - Inherited Widget
 - Google Nav Bar
 
-- [samples](navBar.mp4)
-- [samples](demo_sample.mp4)
+- (nav.gif)
+- (pageview.gif)
 
 
