@@ -18,7 +18,6 @@ Showing expenses of the  user . Each expense will be added with its title , amou
 
 [demo video](https://drive.google.com/file/d/1oLWMC8Pt4OPwgWSgZe2whozIJO9dtTx1/view?usp=drive_link)
 
-![alt text](image-2.png)
 ![alt text](image-4.png)
 ![alt text](image-1.png)
 ![alt text](image-3.png)
