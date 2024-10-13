@@ -14,6 +14,8 @@ class Option extends StatefulWidget {
 
 class _OptionState extends State<Option> {
   int answer = -1;
+  String choice = '';
+  Color? color;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +28,13 @@ class _OptionState extends State<Option> {
                 ? Colors.pink[200]
                 : ((answer == 1 && answer != 0)
                     ? Colors.lightGreen
-                    : (answer == -1 ? Colors.pink[200] : Colors.red)),
+                    : (answer == -2 && choice == ''
+                        ? Colors.pink[200]
+                        : (answer == 0
+                            ? Colors.red
+                            : (answer == -2 && choice == widget.option
+                                ? color
+                                : Colors.pink[200])))),
             foregroundColor: Colors.white,
           ),
           onPressed: () {
@@ -34,10 +42,12 @@ class _OptionState extends State<Option> {
               answer =
                   widget.option == questions[widget.qnumber].answers[0] ? 1 : 0;
               if (!questions[widget.qnumber].chooseOption) {
+                choice = widget.option;
+                color = answer == 1 ? Colors.lightGreen : Colors.red;
                 questions[widget.qnumber].chooseanswer();
                 widget.stan(questions[widget.qnumber].question, widget.option);
               } else {
-                answer = -1;
+                answer = -2;
               }
             });
           },
