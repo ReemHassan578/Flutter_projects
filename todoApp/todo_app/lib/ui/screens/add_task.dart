@@ -1,9 +1,10 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:todo_app/ui/size_config.dart';
 
+import '../theme.dart';
+import '../widgets/button.dart';
 import '../widgets/textform.dart';
 
 enum Repeat { none, daily, weekly, monthly }
@@ -16,20 +17,20 @@ class AddTask extends StatefulWidget {
 }
 
 class _AddTaskState extends State<AddTask> {
-  final List<Color> statusColors = [Colors.red, Colors.yellow, Colors.blue];
+  final List<Color> statusColors = [bluishClr, pinkClr, orangeClr];
   GlobalKey<FormState> form = GlobalKey<FormState>();
-  Color? status = Colors.red;
+  Color? status = bluishClr;
   bool? pressRed = true;
   String? title;
   String? description;
-  DateTime? date = DateTime.now();
+  DateTime? date;
   //String? startTime = DateFormat.Hms().format(DateTime.now());
   //String? endTime =
   //  DateFormat.Hms().format(DateTime.now().add(const Duration(minutes: 15)));
-  TimeOfDay? startTime = TimeOfDay.now();
-  TimeOfDay? endTime = TimeOfDay.now();
-  int? remind = 5;
-  Repeat repeat = Repeat.none;
+  TimeOfDay? startTime;
+  TimeOfDay? endTime;
+  int? remind;
+  Repeat? repeat;
   @override
   void initState() {
     super.initState();
@@ -39,13 +40,7 @@ class _AddTaskState extends State<AddTask> {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return Scaffold(
-      appBar: AppBar(
-        actions: const [
-          CircleAvatar(
-            backgroundImage: AssetImage('lib/assets/person.jpeg'),
-          )
-        ],
-      ),
+      appBar: _appBar(),
       body: Form(
         key: form,
         child: SingleChildScrollView(
@@ -53,6 +48,10 @@ class _AddTaskState extends State<AddTask> {
             padding: const EdgeInsets.all(15.0),
             child: Column(
               children: [
+                Text(
+                  'Add Task',
+                  style: Themes().headingStyle,
+                ),
                 TxtForm(
                   onSave: (value) {
                     title = value;
@@ -75,16 +74,20 @@ class _AddTaskState extends State<AddTask> {
                   validator: (value) {
                     if (value == null ||
                         value.trim().isEmpty ||
-                        value.trim().length < 10)
+                        value.trim().length < 10) {
                       return 'Enter valid description';
+                    }
                     return null;
                   },
                 ),
                 TxtForm(
                   label: 'Date',
-                  hint: DateFormat.yMd().format(date!),
+                  hint: DateFormat.yMd().format(date ?? DateTime.now()),
                   leading: IconButton(
-                    icon: Icon(Icons.calendar_month_outlined),
+                    icon: const Icon(
+                      Icons.calendar_month_outlined,
+                      color: Colors.grey,
+                    ),
                     onPressed: () {
                       showDatePicker(
                               context: context,
@@ -98,7 +101,7 @@ class _AddTaskState extends State<AddTask> {
                     },
                   ),
                   validator: (value) {
-                    if (value == null) return 'choose date';
+                    if (date == null) return 'Choose date';
                     return null;
                   },
                 ),
@@ -107,10 +110,13 @@ class _AddTaskState extends State<AddTask> {
                     Expanded(
                         child: TxtForm(
                       label: 'Start Time',
-                      hint: DateFormat.Hm().format(DateTime(
-                          1, 1, 1, startTime!.hour, startTime!.minute)),
+                      hint: DateFormat('hh:mm a').format(DateTime(1, 1, 1,
+                          startTime?.hour ?? 0, startTime?.minute ?? 0)),
                       leading: IconButton(
-                        icon: Icon(Icons.watch_later_outlined),
+                        icon: const Icon(
+                          Icons.watch_later_outlined,
+                          color: Colors.grey,
+                        ),
                         onPressed: () {
                           showTimePicker(
                                   context: context,
@@ -123,7 +129,11 @@ class _AddTaskState extends State<AddTask> {
                         },
                       ),
                       validator: (value) {
-                        if (value == null) return 'Enter valid start time';
+                        if (startTime == null ||
+                            endTime!.hour < startTime!.hour ||
+                            endTime!.minute < startTime!.minute) {
+                          return 'Choose start time';
+                        }
                         return null;
                       },
                     )),
@@ -131,10 +141,13 @@ class _AddTaskState extends State<AddTask> {
                     Expanded(
                       child: TxtForm(
                         label: 'End Time',
-                        hint: DateFormat.Hm().format(
-                            DateTime(1, 1, 1, endTime!.hour, endTime!.minute)),
+                        hint: DateFormat('hh:mm a').format(DateTime(
+                            1, 1, 1, endTime?.hour ?? 0, endTime?.minute ?? 0)),
                         leading: IconButton(
-                          icon: Icon(Icons.watch_later_outlined),
+                          icon: const Icon(
+                            Icons.watch_later_outlined,
+                            color: Colors.grey,
+                          ),
                           onPressed: () {
                             showTimePicker(
                                     context: context,
@@ -147,8 +160,11 @@ class _AddTaskState extends State<AddTask> {
                           },
                         ),
                         validator: (value) {
-                          //     if (endTime < startTime)
-                          //     return 'Enter valid end time';
+                          if (endTime == null ||
+                              endTime!.hour < startTime!.hour ||
+                              endTime!.minute < startTime!.minute) {
+                            return 'Choose  end time';
+                          }
                           return null;
                         },
                       ),
@@ -157,25 +173,21 @@ class _AddTaskState extends State<AddTask> {
                 ),
                 TxtForm(
                   label: 'Remind',
-                  hint: '$remind minutes early',
+                  hint: '${remind ?? 5} minutes early',
                   leading: DropdownButton(
-                    items: const [
-                      DropdownMenuItem(
-                        child: Text('5'),
-                        value: 5,
-                      ),
-                      DropdownMenuItem(
-                        child: Text('10'),
-                        value: 10,
-                      ),
-                      DropdownMenuItem(
-                        child: Text('15'),
-                        value: 15,
-                      ),
-                      DropdownMenuItem(
-                        child: Text('20'),
-                        value: 20,
-                      ),
+                    underline: Container(),
+                    dropdownColor: Colors.blueGrey,
+                    borderRadius: BorderRadius.circular(10),
+                    focusColor: Colors.white,
+                    icon: const Icon(
+                      Icons.keyboard_arrow_down,
+                    ),
+                    items: [
+                      for (int i = 5; i <= 20; i += 5)
+                        DropdownMenuItem(
+                          value: i,
+                          child: Text('$i'),
+                        ),
                     ],
                     onChanged: (value) {
                       setState(() {
@@ -185,68 +197,119 @@ class _AddTaskState extends State<AddTask> {
                   ),
                   // Icon(Icons.keyboard_arrow_down),
                   validator: (value) {
-                    if (value == null ||
-                        value.trim().isEmpty ||
-                        value.trim().length < 3) return 'Enter valid remind';
+                    if (remind == null) return 'Choose reminder';
                     return null;
                   },
                 ),
                 TxtForm(
                   label: 'Repeat',
-                  hint: 'None',
-                  leading: const Icon(Icons.keyboard_arrow_down),
+                  hint: repeat?.name ?? 'None',
+                  leading: DropdownButton(
+                    underline: Container(),
+                    borderRadius: BorderRadius.circular(10),
+                    dropdownColor: Colors.blueGrey,
+                    focusColor: Colors.white,
+                    icon: const Icon(
+                      Icons.keyboard_arrow_down,
+                    ),
+                    items: [
+                      for (final i in Repeat.values)
+                        DropdownMenuItem(
+                          value: i,
+                          child: Text(i.name),
+                        ),
+                    ],
+                    onChanged: (value) {
+                      setState(() {
+                        repeat = value;
+                      });
+                    },
+                  ),
                   validator: (value) {
-                    if (value == null ||
-                        value.trim().isEmpty ||
-                        value.trim().length < 3) return 'Enter valid repeat';
+                    if (repeat == null) return 'Choose repeat';
                     return null;
                   },
                 ),
                 const SizedBox(
                   height: 10,
                 ),
-                Row(children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text('Color'),
-                        Row(
-                          children: [
-                            for (int i = 0; i < statusColors.length; i++)
-                              InkWell(
-                                child: Container(
-                                    color: statusColors[i],
-                                    width: 30,
-                                    height: 30,
-                                    child: status == statusColors[i]
-                                        ? Icon(Icons.check,
-                                            color: Colors.grey[900])
-                                        : null),
-                                onTap: () {
-                                  setState(() {
-                                    status = statusColors[i];
-                                  });
-                                },
-                              ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                  ElevatedButton(
-                      onPressed: () {
-                        form.currentState!.validate();
-                        form.currentState!.save();
-                        log(repeat.toString());
-                      },
-                      child: const Text('Add Task'))
-                ])
+                selecrColorRow()
               ],
             ),
           ),
         ),
       ),
+    );
+  }
+
+  Row selecrColorRow() {
+    return Row(
+      children: [
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('Color', style: Themes().titleStyle),
+              const SizedBox(
+                height: 10,
+              ),
+              Row(
+                children: [
+                  for (int i = 0; i < statusColors.length; i++)
+                    Row(
+                      children: [
+                        InkWell(
+                          child: Container(
+                              decoration: BoxDecoration(
+                                  color: statusColors[i],
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(25))),
+                              width: 30,
+                              height: 30,
+                              child: status == statusColors[i]
+                                  ? Icon(Icons.check, color: Colors.grey[900])
+                                  : null),
+                          onTap: () {
+                            setState(() {
+                              status = statusColors[i];
+                            });
+                          },
+                        ),
+                        const SizedBox(width: 10),
+                      ],
+                    ),
+                ],
+              ),
+            ],
+          ),
+        ),
+        Button(
+          color: primaryClr,
+          text: 'Add Task',
+          onTap: () {
+            if (form.currentState!.validate()) {
+              form.currentState!.save();
+            }
+          },
+        ),
+      ],
+    );
+  }
+
+  AppBar _appBar() {
+    return AppBar(
+      leading: IconButton(
+        icon: const Icon(Icons.arrow_back_ios),
+        onPressed: () {
+          Get.back();
+        },
+      ),
+      actions: const [
+        CircleAvatar(
+          backgroundImage: AssetImage('lib/assets/person.jpeg'),
+        ),
+        SizedBox(width: 10),
+      ],
     );
   }
 }

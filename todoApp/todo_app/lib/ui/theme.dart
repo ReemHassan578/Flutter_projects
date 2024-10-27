@@ -58,6 +58,14 @@ class Themes {
     );
   }
 
+  TextStyle get subTitleStyleGrey {
+    return const TextStyle(
+      fontWeight: FontWeight.w400,
+      fontSize: 16,
+      color: Colors.grey,
+    );
+  }
+
   TextStyle get bodyStyle {
     return TextStyle(
       fontWeight: FontWeight.w400,
@@ -71,6 +79,14 @@ class Themes {
       fontWeight: FontWeight.w400,
       fontSize: 14,
       color: Get.isDarkMode ? Colors.grey[200] : darkGreyClr,
+    );
+  }
+
+  TextStyle get subTitleStyleWhite {
+    return const TextStyle(
+      fontWeight: FontWeight.w400,
+      fontSize: 10,
+      color: Colors.white,
     );
   }
 }

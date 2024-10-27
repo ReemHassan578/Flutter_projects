@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:todo_app/services/theme_service.dart';
 import 'package:todo_app/ui/size_config.dart';
 
 import '../theme.dart';
@@ -49,7 +48,7 @@ class TxtForm extends StatelessWidget {
                 borderSide:
                     BorderSide(color: context.theme.primaryColor, width: 0),
               ),
-              suffix: leading == null ? null : leading,
+              suffixIcon: leading,
               hintText: hint,
               hintStyle: Themes().subTitleStyle,
             ),

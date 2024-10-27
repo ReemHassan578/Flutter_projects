@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:todo_app/services/theme_service.dart';
-import 'package:todo_app/ui/screens/notification.dart';
 import 'package:todo_app/ui/theme.dart';
 
+import 'services/notification_service.dart';
 import 'ui/screens/home.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  
+  await GetStorage.init();
   runApp(const MyApp());
 }
 
