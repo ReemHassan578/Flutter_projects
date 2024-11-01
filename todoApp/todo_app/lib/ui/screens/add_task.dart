@@ -1,25 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:todo_app/models/task.dart';
 import 'package:todo_app/ui/size_config.dart';
 
+import '../../controllers/task_controller.dart';
 import '../theme.dart';
 import '../widgets/button.dart';
 import '../widgets/textform.dart';
 
-enum Repeat { none, daily, weekly, monthly }
-
 class AddTask extends StatefulWidget {
-  const AddTask({super.key});
-
+  const AddTask(this.notify, {super.key});
+  final Function(Task task) notify;
   @override
   State<AddTask> createState() => _AddTaskState();
 }
 
 class _AddTaskState extends State<AddTask> {
+  final TaskController taskController = Get.find<TaskController>();
+
   final List<Color> statusColors = [bluishClr, pinkClr, orangeClr];
   GlobalKey<FormState> form = GlobalKey<FormState>();
-  Color? status = bluishClr;
+  int? status = 0;
   bool? pressRed = true;
   String? title;
   String? description;
@@ -96,6 +98,7 @@ class _AddTaskState extends State<AddTask> {
                           .then(
                         (value) => setState(() {
                           date = value;
+                          FocusScope.of(context).unfocus();
                         }),
                       );
                     },
@@ -119,19 +122,22 @@ class _AddTaskState extends State<AddTask> {
                         ),
                         onPressed: () {
                           showTimePicker(
+                                  initialEntryMode: TimePickerEntryMode.input,
                                   context: context,
                                   initialTime: TimeOfDay.now())
                               .then(
                             (value) => setState(() {
                               startTime = value;
+                              FocusScope.of(context).unfocus();
                             }),
                           );
                         },
                       ),
                       validator: (value) {
-                        if (startTime == null ||
-                            endTime!.hour < startTime!.hour ||
-                            endTime!.minute < startTime!.minute) {
+                        //||
+                        //  endTime!.hour < startTime!.hour ||
+                        //endTime!.minute < startTime!.minute
+                        if (startTime == null) {
                           return 'Choose start time';
                         }
                         return null;
@@ -150,19 +156,24 @@ class _AddTaskState extends State<AddTask> {
                           ),
                           onPressed: () {
                             showTimePicker(
+                                    initialEntryMode: TimePickerEntryMode.input,
                                     context: context,
-                                    initialTime: TimeOfDay.now())
+                                    initialTime: TimeOfDay.fromDateTime(
+                                        DateTime.now()
+                                            .add(const Duration(minutes: 30))))
                                 .then(
                               (value) => setState(() {
+                                FocusScope.of(context).unfocus();
                                 endTime = value;
                               }),
                             );
                           },
                         ),
                         validator: (value) {
-                          if (endTime == null ||
-                              endTime!.hour < startTime!.hour ||
-                              endTime!.minute < startTime!.minute) {
+                          //||
+                          //     endTime!.hour < startTime!.hour ||
+                          //   endTime!.minute < startTime!.minute
+                          if (endTime == null) {
                             return 'Choose  end time';
                           }
                           return null;
@@ -203,7 +214,7 @@ class _AddTaskState extends State<AddTask> {
                 ),
                 TxtForm(
                   label: 'Repeat',
-                  hint: repeat?.name ?? 'None',
+                  hint: repeat?.name ?? 'none',
                   leading: DropdownButton(
                     underline: Container(),
                     borderRadius: BorderRadius.circular(10),
@@ -233,7 +244,7 @@ class _AddTaskState extends State<AddTask> {
                 const SizedBox(
                   height: 10,
                 ),
-                selecrColorRow()
+                selectColorRow()
               ],
             ),
           ),
@@ -242,7 +253,7 @@ class _AddTaskState extends State<AddTask> {
     );
   }
 
-  Row selecrColorRow() {
+  Row selectColorRow() {
     return Row(
       children: [
         Expanded(
@@ -259,6 +270,8 @@ class _AddTaskState extends State<AddTask> {
                     Row(
                       children: [
                         InkWell(
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(25)),
                           child: Container(
                               decoration: BoxDecoration(
                                   color: statusColors[i],
@@ -266,12 +279,12 @@ class _AddTaskState extends State<AddTask> {
                                       Radius.circular(25))),
                               width: 30,
                               height: 30,
-                              child: status == statusColors[i]
+                              child: status == i
                                   ? Icon(Icons.check, color: Colors.grey[900])
                                   : null),
                           onTap: () {
                             setState(() {
-                              status = statusColors[i];
+                              status = i;
                             });
                           },
                         ),
@@ -286,9 +299,33 @@ class _AddTaskState extends State<AddTask> {
         Button(
           color: primaryClr,
           text: 'Add Task',
-          onTap: () {
+          onTap: () async {
             if (form.currentState!.validate()) {
               form.currentState!.save();
+              Task task = Task(
+                  startTime: startTime!,
+                  remind: remind!,
+                  repeat: repeat!,
+                  color: status!,
+                  endTime: endTime!,
+                  title: title!,
+                  date: date!,
+                  description: description!);
+              await taskController.addTask(task, context);
+              widget.notify(task);
+
+              //    NotificationService().scheduleNotification(task, date!);
+
+              Get.back();
+            } else {
+              Get.snackbar('required', 'All fields are required',
+                  snackPosition: SnackPosition.BOTTOM,
+                  backgroundColor: Colors.white,
+                  colorText: pinkClr,
+                  icon: const Icon(
+                    Icons.warning_amber_rounded,
+                    color: Colors.red,
+                  ));
             }
           },
         ),

@@ -1,6 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
@@ -84,6 +82,8 @@ class NotificationService {
           badge: true,
           sound: true,
         );
+    _checkPendingNotificationRequests();
+
     // const AndroidNotificationChannel channel = AndroidNotificationChannel(
     // 'uchannel id', // id
     // 'uchannel name', // name
@@ -124,25 +124,15 @@ class NotificationService {
         .show(0, title, body, notificationDetails, payload: 'item x |xcvb|dvb');
   }
 
-//scheduling notification every certain duration
-  scheduleNotification(Task task) async {
-    // final scheduledTime = DateTime.now().add(const Duration(minutes: 1));
-    //   final scheduledTime =
-    //     tz.TZDateTime.now(tz.local).add(const Duration(seconds: 55));
-    /* DateTime timenow = DateTime.now()
-        .subtract(Duration(hours: 1))
-        .add(const Duration(minutes: 2));
-
-    //  Convert to tz.TZDateTime in local timezone
-    final tz.TZDateTime scheduledTimeTz = tz.TZDateTime.from(timenow, tz.local);*/
-
-    // Step 4: Log for debugging
-
+//scheduling notification at certain time once
+  scheduleNotification(Task task, DateTime date) async {
     await flutterLocalNotificationsPlugin.zonedSchedule(
-      1,
-      'scheduled title',
-      'scheduled body',
-      tz.TZDateTime.now(tz.local).add(const Duration(seconds: 20)),
+      task.id!,
+      task.title,
+      task.description,
+//      _nextInstanceOfNotification(hour, minute, task.date,task.remind),
+      _nextInstanceOfNotification(task),
+
       const NotificationDetails(
         android: AndroidNotificationDetails(
             //    fullScreenIntent: true,
@@ -175,7 +165,7 @@ class NotificationService {
         NotificationDetails(android: androidNotificationDetails);
     await flutterLocalNotificationsPlugin.periodicallyShow(0, 'repeating title',
         'repeating body', RepeatInterval.everyMinute, notificationDetails,
-        androidAllowWhileIdle: true);
+        payload: 'title|description|startTime');
   }
 
   void onDidReceiveNotificationResponse(
@@ -190,20 +180,105 @@ class NotificationService {
   Future<void> _configureLocalTimeZone() async {
     tz.initializeTimeZones();
     final String timeZoneName = await FlutterTimezone.getLocalTimezone();
-    log(timeZoneName);
+
     //tz.setLocalLocation(tz.getLocation(timeZoneName));
 
     tz.setLocalLocation(tz.getLocation('Africa/Blantyre'));
   }
 
-  Future<void> checkPendingNotificationRequests() async {
-    final List<PendingNotificationRequest> pendingNotificationRequests =
-        await flutterLocalNotificationsPlugin.pendingNotificationRequests();
-    log('${pendingNotificationRequests.length} pending notification ');
-
-    for (PendingNotificationRequest pendingNotificationRequest
-        in pendingNotificationRequests) {
-      log("${pendingNotificationRequest.id} ${pendingNotificationRequest.payload ?? ""}");
-    }
+  Future<List<PendingNotificationRequest>>
+      _checkPendingNotificationRequests() async {
+    return await flutterLocalNotificationsPlugin.pendingNotificationRequests();
   }
+
+  deleteCertainTaskNotification(int id) async {
+    await flutterLocalNotificationsPlugin.cancel(id);
+  }
+
+  tz.TZDateTime _nextInstanceOfNotification(
+      //  int hour, int minutes, DateTime date,int remind,Repeat repeat)
+      Task task) {
+    //log('${task.id}  ${task.title} ${task.date.toString()}} ${task.description} ${task.isComplete.toString()} ${task.startTime.toString()} ${task.endTime.toString()} ${task.remind} ${task.repeat.name} ${task.color}');
+    final tz.TZDateTime now = tz.TZDateTime.now(tz.local);
+    //final tz.TZDateTime now = tz.TZDateTime(
+    //  tz.local, 2025, 12, 1, task.startTime.hour, task.startTime.minute);
+    tz.TZDateTime scheduledDate = tz.TZDateTime(
+        tz.local,
+        task.date.year,
+        task.date.month,
+        task.date.day,
+        task.startTime.hour,
+        task.startTime.minute);
+
+    tz.TZDateTime scheduledRemindDate =
+        scheduledDate.subtract(Duration(minutes: task.remind));
+
+    if (task.repeat == Repeat.daily) {
+      if (scheduledRemindDate.isBefore(now)) {
+        scheduledRemindDate = scheduledRemindDate.add(const Duration(days: 1));
+      }
+      return scheduledRemindDate;
+    } else if (task.repeat == Repeat.weekly) {
+      if (scheduledRemindDate.isBefore(now)) {
+        scheduledRemindDate = scheduledRemindDate.add(const Duration(days: 7));
+      }
+
+      return scheduledRemindDate;
+    } else if (task.repeat == Repeat.monthly) {
+      if (scheduledRemindDate.isBefore(now)) {
+        DateTime nextMonth = DateTime(
+            scheduledRemindDate.year, scheduledRemindDate.month + 1, 1);
+
+        int lastDayOfNextMonth =
+            DateTime(nextMonth.year, nextMonth.month + 1, 0).day;
+
+        // Check if the task date day fits within the next month’s last day
+        int dayToSet = (task.date.day <= lastDayOfNextMonth)
+            ? task.date.day
+            : lastDayOfNextMonth;
+
+        // Schedule reminder for the adjusted day
+        scheduledRemindDate = tz.TZDateTime(
+            tz.local,
+            nextMonth.year,
+            nextMonth.month,
+            dayToSet,
+            scheduledRemindDate.hour,
+            scheduledRemindDate.minute);
+/////
+        /*   DateTime check = DateTime(
+            scheduledRemindDate.year,
+            scheduledRemindDate.month + 1,
+            scheduledRemindDate.day,
+            scheduledRemindDate.hour,
+            scheduledRemindDate.minute);
+        log(check.toString());
+
+        //      if(task.date.day==31 && date.day==31 )
+        //if(task.date.day==31 && date.day==30 && check){
+
+        //   check.month == scheduledRemindDate.month
+        log((check.difference(scheduledRemindDate).inDays).toString());
+        log((check.month - 1 == scheduledRemindDate.month)
+            .toString()); // true task.date   false date
+        scheduledRemindDate = tz.TZDateTime(
+            tz.local,
+            scheduledRemindDate.year,
+            scheduledRemindDate.month + 1,
+            (check.month - 1 == scheduledRemindDate.month) ? task.date.day : 30,
+            scheduledRemindDate.hour,
+            scheduledRemindDate.minute);
+        log((' ${scheduledRemindDate.month}').toString());
+        log('preint check ${task.date.day}');
+        log(scheduledRemindDate.toString());
+      }
+      log(scheduledRemindDate.toString());*/
+        return scheduledRemindDate;
+      }
+    }
+
+    return scheduledRemindDate;
+  }
+// date
+// next instance of week
 }

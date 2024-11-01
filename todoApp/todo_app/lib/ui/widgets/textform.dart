@@ -50,7 +50,9 @@ class TxtForm extends StatelessWidget {
               ),
               suffixIcon: leading,
               hintText: hint,
-              hintStyle: Themes().subTitleStyle,
+              hintStyle: (label == 'End Time' || label == 'Start Time')
+                  ? Themes().subTitleStyle.copyWith(fontSize: 10)
+                  : Themes().subTitleStyle,
             ),
           ),
         ),

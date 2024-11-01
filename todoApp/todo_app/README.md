@@ -1,17 +1,11 @@
 # todo_app
 
-A new Flutter project.
+To Do app to save user tasks using sqflite and remind him with local notification
 
-## Getting Started
+# This project is a starting point for 
 
-This project is a starting point for a Flutter application.
+- SVG image
+- GetX( GetStorage - obs - navigation without context - showing Dialog/BottomSheet/snakbar - check isDarkMode ..ect)
+- flutter local notification
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
-GetX (navigation without context - isDarkMode - GetStroage - showDialog-showBottomSheet..ect

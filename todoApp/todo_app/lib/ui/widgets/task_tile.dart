@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:todo_app/controllers/task_controller.dart';
 
+import '../../models/task.dart';
 import '../size_config.dart';
 import '../theme.dart';
 import 'button.dart';
@@ -9,11 +9,14 @@ import 'button.dart';
 class TaskTile extends StatelessWidget {
   const TaskTile({
     super.key,
-    required this.index,
+    required this.task,
+    required this.onComplete,
+    required this.ondelete,
   });
 
-  final int index;
-
+  final Task task;
+  final Function() onComplete;
+  final Function() ondelete;
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -30,7 +33,7 @@ class TaskTile extends StatelessWidget {
             : SizeConfig.screenHeight / 7,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
-          color: TaskController().tasks[index].color,
+          color: colorCon(task.color),
         ),
         margin: const EdgeInsets.all(8),
         child: Row(
@@ -40,7 +43,7 @@ class TaskTile extends StatelessWidget {
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(TaskController().tasks[index].title,
+                      Text(task.title,
                           style: const TextStyle(
                             fontSize: 16,
                             color: Colors.white,
@@ -60,7 +63,7 @@ class TaskTile extends StatelessWidget {
                             width: 10,
                           ),
                           Text(
-                              '${TaskController().tasks[index].startTime.format(context).toString()} - ${TaskController().tasks[index].endTime.format(context).toString()}',
+                              '${task.startTime.format(context).toString()} - ${task.endTime.format(context).toString()}',
                               style: TextStyle(
                                 fontSize: 13,
                                 color: Colors.grey[100],
@@ -71,7 +74,7 @@ class TaskTile extends StatelessWidget {
                         height: 10,
                       ),
                       Text(
-                        TaskController().tasks[index].description,
+                        task.description,
                         style: TextStyle(
                           fontSize: 15,
                           color: Colors.grey[100],
@@ -88,7 +91,7 @@ class TaskTile extends StatelessWidget {
             RotatedBox(
               quarterTurns: 3,
               child: Text(
-                TaskController().tasks[index].isComplete ? 'COMPLETED' : 'TODO',
+                task.isComplete ? 'COMPLETED' : 'TODO',
                 style: Themes().subTitleStyleWhite,
               ),
             )
@@ -111,22 +114,18 @@ class TaskTile extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              if (!TaskController().tasks[index].isComplete)
+              if (!task.isComplete)
                 Button(
                   text: 'Task Completed',
-                  onTap: () {
-                    TaskController().tasks[index].completeTask();
-                  },
+                  onTap: onComplete,
                   color: Colors.red,
                 ),
-              if (TaskController().tasks[index].isComplete)
+              if (task.isComplete)
                 SizedBox(height: getProportionateScreenHeight(40)),
               SizedBox(height: getProportionateScreenHeight(10)),
               Button(
                 text: 'Delete Task ',
-                onTap: () {
-                  TaskController().tasks.remove(TaskController().tasks[index]);
-                },
+                onTap: ondelete,
                 color: primaryClr,
               ),
               Divider(
@@ -158,18 +157,18 @@ class TaskTile extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              if (!TaskController().tasks[index].isComplete)
+              if (!task.isComplete)
                 Button(
                   text: 'Task Completed',
                   onTap: () {
-                    TaskController().tasks[index].completeTask();
+                    task.completeTask();
                   },
                   color: Colors.red,
                 ),
               Button(
                 text: 'Delete Task ',
                 onTap: () {
-                  TaskController().tasks.remove(TaskController().tasks[index]);
+                  TaskController().tasks.remove(task);
                 },
                 color: primaryClr,
               ),
@@ -188,5 +187,18 @@ class TaskTile extends StatelessWidget {
         );
       },
     );*/
+  }
+
+  Color colorCon(int indx) {
+    switch (indx) {
+      case 0:
+        return bluishClr;
+      case 1:
+        return pinkClr;
+      case 2:
+        return orangeClr;
+      default:
+        return white;
+    }
   }
 }
