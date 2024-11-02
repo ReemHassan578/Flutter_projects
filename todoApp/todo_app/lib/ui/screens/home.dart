@@ -291,7 +291,7 @@ class _HomeState extends State<Home> {
               foregroundColor: Colors.white),
           onPressed: () async {
             await Get.to(AddTask((Task task) {
-              NotificationService().scheduleNotification(task, date);
+              NotificationService().scheduleNotification(task, date, context);
             }));
           },
           icon: const Icon(Icons.add),

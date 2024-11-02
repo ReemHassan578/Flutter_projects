@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
@@ -125,7 +126,7 @@ class NotificationService {
   }
 
 //scheduling notification at certain time once
-  scheduleNotification(Task task, DateTime date) async {
+  scheduleNotification(Task task, DateTime date, BuildContext cntx) async {
     await flutterLocalNotificationsPlugin.zonedSchedule(
       task.id!,
       task.title,
@@ -135,6 +136,8 @@ class NotificationService {
 
       const NotificationDetails(
         android: AndroidNotificationDetails(
+            visibility: NotificationVisibility.public,
+
             //    fullScreenIntent: true,
             importance: Importance.max,
             priority: Priority.high,
@@ -146,7 +149,8 @@ class NotificationService {
       androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
       uiLocalNotificationDateInterpretation:
           UILocalNotificationDateInterpretation.absoluteTime,
-      payload: '${task.title}|${task.description}|${task.startTime}',
+      payload:
+          '${task.title}|${task.description}|${task.startTime.format(cntx)}',
     );
     // log((tz.TZDateTime.now(tz.local).subtract(Duration(hours: 1))).toString());
     //log(' ${DateTime.now()}.toString()');
@@ -181,9 +185,9 @@ class NotificationService {
     tz.initializeTimeZones();
     final String timeZoneName = await FlutterTimezone.getLocalTimezone();
 
-    //tz.setLocalLocation(tz.getLocation(timeZoneName));
+    tz.setLocalLocation(tz.getLocation(timeZoneName));
 
-    tz.setLocalLocation(tz.getLocation('Africa/Blantyre'));
+    // tz.setLocalLocation(tz.getLocation('Africa/Blantyre'));
   }
 
   Future<List<PendingNotificationRequest>>

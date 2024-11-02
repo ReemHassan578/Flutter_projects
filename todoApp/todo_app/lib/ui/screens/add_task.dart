@@ -26,9 +26,8 @@ class _AddTaskState extends State<AddTask> {
   String? title;
   String? description;
   DateTime? date;
-  //String? startTime = DateFormat.Hms().format(DateTime.now());
-  //String? endTime =
-  //  DateFormat.Hms().format(DateTime.now().add(const Duration(minutes: 15)));
+  // Focus nodes for each form field
+
   TimeOfDay? startTime;
   TimeOfDay? endTime;
   int? remind;
@@ -58,6 +57,9 @@ class _AddTaskState extends State<AddTask> {
                   onSave: (value) {
                     title = value;
                   },
+                  onSubmit: (value) {
+                    FocusScope.of(context).unfocus();
+                  },
                   label: 'Title',
                   hint: 'Enter title here',
                   validator: (value) {
@@ -72,11 +74,14 @@ class _AddTaskState extends State<AddTask> {
                     description = value;
                   },
                   label: 'Note',
+                  onSubmit: (value) {
+                    FocusScope.of(context).unfocus();
+                  },
                   hint: 'Enter note here',
                   validator: (value) {
                     if (value == null ||
                         value.trim().isEmpty ||
-                        value.trim().length < 10) {
+                        value.trim().length < 5) {
                       return 'Enter valid description';
                     }
                     return null;
@@ -91,16 +96,18 @@ class _AddTaskState extends State<AddTask> {
                       color: Colors.grey,
                     ),
                     onPressed: () {
+                      FocusScope.of(context).unfocus();
                       showDatePicker(
                               context: context,
                               firstDate: DateTime.now()
                                   .subtract(const Duration(days: 90)),
                               lastDate: DateTime(2030))
                           .then(
-                        (value) => setState(() {
-                          date = value;
-                          FocusScope.of(context).unfocus();
-                        }),
+                        (value) {
+                          setState(() {
+                            date = value;
+                          });
+                        },
                       );
                     },
                   ),
@@ -185,7 +192,9 @@ class _AddTaskState extends State<AddTask> {
                 ),
                 TxtForm(
                   label: 'Remind',
-                  hint: '${remind ?? 5} minutes early',
+                  hint: (remind ?? 10) < 31
+                      ? '${remind ?? 10} minutes early'
+                      : '${((remind ?? 1440) ~/ (60 * 24))} days early',
                   leading: DropdownButton(
                     underline: Container(),
                     dropdownColor: Colors.blueGrey,
@@ -195,11 +204,16 @@ class _AddTaskState extends State<AddTask> {
                       Icons.keyboard_arrow_down,
                     ),
                     items: [
-                      for (int i = 5; i <= 20; i += 5)
+                      for (int i = 10; i <= 30; i += 10)
                         DropdownMenuItem(
                           value: i,
-                          child: Text('$i'),
+                          child: Text('$i minutes'),
                         ),
+                      for (int i = 1440; i <= 4320; i += 1440)
+                        DropdownMenuItem(
+                          value: i,
+                          child: Text('${i ~/ (60 * 24)} day'),
+                        )
                     ],
                     onChanged: (value) {
                       setState(() {

@@ -6,6 +6,8 @@ import '../theme.dart';
 
 class TxtForm extends StatelessWidget {
   final String label;
+
+  final void Function(String)? onSubmit;
   final String hint;
   final Widget? leading;
   final String? Function(String?) validator;
@@ -17,6 +19,7 @@ class TxtForm extends StatelessWidget {
     this.leading,
     required this.validator,
     this.onSave,
+    this.onSubmit,
   });
 
   @override
@@ -33,6 +36,7 @@ class TxtForm extends StatelessWidget {
               border: Border.all(color: Colors.grey),
               borderRadius: BorderRadius.circular(13)),
           child: TextFormField(
+            onFieldSubmitted: onSubmit,
             style: Themes().subTitleStyle,
             readOnly: leading == null ? false : true,
             validator: validator,

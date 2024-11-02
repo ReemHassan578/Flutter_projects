@@ -27,7 +27,7 @@ class NotificationScreen extends StatelessWidget {
         children: [
           const SizedBox(height: 10),
           Text(
-            'Hello, Reem',
+            'Hello, Samia',
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 20,
@@ -73,7 +73,7 @@ class NotificationScreen extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 10),
-                      buildNotify(Icons.calendar_today_outlined, 'Date'),
+                      buildNotify(Icons.calendar_today_outlined, 'Time'),
                       Text(list[2],
                           style: const TextStyle(
                             color: Colors.white,
