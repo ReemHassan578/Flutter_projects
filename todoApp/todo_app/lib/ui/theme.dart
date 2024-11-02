@@ -61,7 +61,7 @@ class Themes {
   TextStyle get subTitleStyleGrey {
     return const TextStyle(
       fontWeight: FontWeight.w400,
-      fontSize: 16,
+      fontSize: 12,
       color: Colors.grey,
     );
   }

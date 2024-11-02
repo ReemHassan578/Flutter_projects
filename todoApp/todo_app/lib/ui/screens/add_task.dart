@@ -93,7 +93,8 @@ class _AddTaskState extends State<AddTask> {
                     onPressed: () {
                       showDatePicker(
                               context: context,
-                              firstDate: DateTime.now(),
+                              firstDate: DateTime.now()
+                                  .subtract(const Duration(days: 90)),
                               lastDate: DateTime(2030))
                           .then(
                         (value) => setState(() {

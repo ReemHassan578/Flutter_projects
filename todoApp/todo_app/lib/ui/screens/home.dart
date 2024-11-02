@@ -251,9 +251,9 @@ class _HomeState extends State<Home> {
   DatePicker addDateBar(BuildContext context) {
     return DatePicker(
       //  height: MediaQuery.of(context).size.height / 6,
-      height: 150,
+      height: 110,
       initialSelectedDate: DateTime.now(),
-      DateTime.now(),
+      DateTime.now().subtract(const Duration(days: 3)),
       selectionColor: const Color.fromARGB(255, 162, 118, 170),
       selectedTextColor: Colors.white,
       dateTextStyle: Themes().subTitleStyleGrey,
@@ -281,7 +281,7 @@ class _HomeState extends State<Home> {
                 date.day == DateTime.now().day
                     ? 'Today '
                     : DateFormat.yMd().format(date),
-                style: Theme.of(context).textTheme.headlineLarge),
+                style: Themes().titleStyle),
           ],
         ),
       ),
