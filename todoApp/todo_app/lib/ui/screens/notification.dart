@@ -27,7 +27,7 @@ class NotificationScreen extends StatelessWidget {
         children: [
           const SizedBox(height: 10),
           Text(
-            'Hello, Samia',
+            'Hello, Reem',
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 20,

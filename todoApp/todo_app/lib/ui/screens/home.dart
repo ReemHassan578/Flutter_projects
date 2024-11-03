@@ -278,7 +278,9 @@ class _HomeState extends State<Home> {
               style: Theme.of(context).textTheme.titleLarge,
             ),
             Text(
-                date.day == DateTime.now().day
+                (date.day == DateTime.now().day) &&
+                        (date.month == DateTime.now().month) &&
+                        (date.year == DateTime.now().year)
                     ? 'Today '
                     : DateFormat.yMd().format(date),
                 style: Themes().titleStyle),
