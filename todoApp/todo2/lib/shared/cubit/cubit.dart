@@ -43,8 +43,9 @@ class AppCubit extends Cubit<AppStates> {
   }
 
   Future<void> insert(Task todo) async {
-    await db.insert('Tasks', todo.toMap());
+    int id = await db.insert('Tasks', todo.toMap());
     bottomOpen = false;
+    todo.id = id;
     tasks.add(todo);
     emit(InsertToDBState());
   }

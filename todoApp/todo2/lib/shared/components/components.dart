@@ -100,8 +100,8 @@ Widget buildTask(Task task, BuildContext cntx) {
             ),
           ),
           IconButton(
-              onPressed: () {
-                AppCubit.get(cntx).updateDB(task.id!, 'done');
+              onPressed: () async {
+                await AppCubit.get(cntx).updateDB(task.id!, 'done');
               },
               icon: Icon(
                 Icons.check_box,

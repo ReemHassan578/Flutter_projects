@@ -1,16 +1,17 @@
-# todo
+# todo app
 
-A new Flutter project.
+A Flutter project that saves user tasks using sqflite based on its status.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+This project is a starting point for using 
 
-A few resources to get you started if this is your first Flutter project:
+- cubit State Management 
+- bloc Observer
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+![alt text](image.png)
+![alt text](image-2.png)
+![alt text](image-3.png)
+![alt text](image-4.png)
+ [Demo](https://drive.google.com/file/d/1XlLgzTEzPe2OJwXguQ8D8HcZvfnzZn-J/view?usp=drive_link)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.

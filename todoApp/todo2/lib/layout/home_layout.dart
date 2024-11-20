@@ -2,15 +2,12 @@ import 'package:conditional_builder_null_safety/conditional_builder_null_safety.
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:todo/modules/archived_tasks/archived_tasks.dart';
-import 'package:todo/modules/done_tasks/done_tasks.dart';
-import 'package:todo/modules/new_tasks/new_task.dart';
+
 import 'package:todo/shared/components/components.dart';
-import 'package:sqflite/sqflite.dart';
+
 import 'package:todo/shared/cubit/cubit.dart';
 
 import '../models/task.dart';
-import '../shared/components/constants.dart';
 import '../shared/cubit/states.dart';
 
 class Home extends StatelessWidget {
@@ -68,17 +65,19 @@ class Home extends StatelessWidget {
             floatingActionButton: FloatingActionButton(
               shape: const CircleBorder(),
               child: Icon(cubit.bottomOpen ? Icons.add : Icons.edit),
-              onPressed: () {
+              onPressed: () async {
                 if (cubit.bottomOpen) {
                   if (formKey.currentState!.validate()) {
-                    cubit.insert(Task(
+                    await cubit.insert(Task(
                         title: titleController.text,
                         date: dateController.text,
                         time: timeController.text));
                   }
                 } else {
                   cubit.pressFAB(true);
-
+                  titleController.clear();
+                  dateController.clear();
+                  timeController.clear();
                   scaff.currentState!
                       .showBottomSheet(
                         elevation: 100,
@@ -86,81 +85,84 @@ class Home extends StatelessWidget {
                         (context) {
                           return Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: Form(
-                              key: formKey,
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  buildTextFormField(
-                                      controller: titleController,
-                                      validator: (String? value) {
+                            child: SingleChildScrollView(
+                              child: Form(
+                                key: formKey,
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    buildTextFormField(
+                                        controller: titleController,
+                                        validator: (String? value) {
+                                          if (value == null ||
+                                              value.trim().isEmpty) {
+                                            return 'Title must not be empty';
+                                          } else {
+                                            return null;
+                                          }
+                                        },
+                                        typeKeyboard: TextInputType.text,
+                                        label: 'Title',
+                                        prefix: Icons.title),
+                                    const SizedBox(height: 10),
+                                    buildTextFormField(
+                                      controller: dateController,
+                                      typeKeyboard: TextInputType.datetime,
+                                      label: 'Date',
+                                      validator: (value) {
                                         if (value == null ||
                                             value.trim().isEmpty) {
-                                          return 'Title must not be empty';
-                                        } else {
-                                          return null;
+                                          return 'Date must not be empty';
                                         }
+                                        return null;
                                       },
-                                      typeKeyboard: TextInputType.text,
-                                      label: 'Title',
-                                      prefix: Icons.title),
-                                  const SizedBox(height: 10),
-                                  buildTextFormField(
-                                    controller: dateController,
-                                    typeKeyboard: TextInputType.datetime,
-                                    label: 'Date',
-                                    validator: (value) {
-                                      if (value == null ||
-                                          value.trim().isEmpty) {
-                                        return 'Date must not be empty';
-                                      }
-                                      return null;
-                                    },
-                                    prefix: Icons.date_range_outlined,
-                                    touch: () {
-                                      showDatePicker(
-                                              initialDate: DateTime.now(),
-                                              context: context,
-                                              firstDate: DateTime(2024),
-                                              lastDate: DateTime(2030))
-                                          .then(
-                                        (value) {
-                                          if (value == null) return;
+                                      prefix: Icons.date_range_outlined,
+                                      touch: () {
+                                        showDatePicker(
+                                                initialDate: DateTime.now(),
+                                                context: context,
+                                                firstDate: DateTime(2024),
+                                                lastDate: DateTime(2030))
+                                            .then(
+                                          (value) {
+                                            if (value == null) return;
 
-                                          //  date = DateFormat().format(value);
-                                          dateController.text =
-                                              DateFormat.yMMMd().format(value);
-                                        },
-                                      );
-                                    },
-                                  ),
-                                  const SizedBox(height: 10),
-                                  buildTextFormField(
-                                    validator: (value) {
-                                      if (value == null ||
-                                          value.trim().isEmpty) {
-                                        return 'Time must not be empty';
-                                      }
-                                      return null;
-                                    },
-                                    controller: timeController,
-                                    typeKeyboard: TextInputType.datetime,
-                                    label: 'Time',
-                                    prefix: Icons.watch_later_outlined,
-                                    touch: () {
-                                      showTimePicker(
-                                              context: context,
-                                              initialTime: TimeOfDay.now())
-                                          .then(
-                                        (value) {
-                                          if (value == null) return;
-                                          timeController.text =
-                                              value.format(context);
-                                        },
-                                      );
-                                    },
-                                  )
-                                ],
+                                            //  date = DateFormat().format(value);
+                                            dateController.text =
+                                                DateFormat.yMMMd()
+                                                    .format(value);
+                                          },
+                                        );
+                                      },
+                                    ),
+                                    const SizedBox(height: 10),
+                                    buildTextFormField(
+                                      validator: (value) {
+                                        if (value == null ||
+                                            value.trim().isEmpty) {
+                                          return 'Time must not be empty';
+                                        }
+                                        return null;
+                                      },
+                                      controller: timeController,
+                                      typeKeyboard: TextInputType.datetime,
+                                      label: 'Time',
+                                      prefix: Icons.watch_later_outlined,
+                                      touch: () {
+                                        showTimePicker(
+                                                context: context,
+                                                initialTime: TimeOfDay.now())
+                                            .then(
+                                          (value) {
+                                            if (value == null) return;
+                                            timeController.text =
+                                                value.format(context);
+                                          },
+                                        );
+                                      },
+                                    )
+                                  ],
+                                ),
                               ),
                             ),
                           );
