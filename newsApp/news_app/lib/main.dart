@@ -12,6 +12,7 @@ import 'package:news_app/shared/network/local/cache_helper.dart';
 import 'package:news_app/shared/network/remote/dio_helper.dart';
 
 import 'shared/bloc_observer.dart';
+import 'shared/styles/styles.dart';
 
 class PostHttpOverrides extends HttpOverrides {
   @override
@@ -49,74 +50,9 @@ class MyApp extends StatelessWidget {
           final cubit = NewsCubit.get(context);
           return MaterialApp(
             themeMode: cubit.isDark ? ThemeMode.dark : ThemeMode.light,
-            darkTheme: ThemeData(
-              progressIndicatorTheme:
-                  const ProgressIndicatorThemeData(color: Colors.deepOrange),
-              // colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepOrange),
-              appBarTheme: AppBarTheme(
-                titleSpacing: 20,
-                titleTextStyle: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold),
-                color: HexColor('333739'),
-                actionsIconTheme: const IconThemeData(color: Colors.white),
-                systemOverlayStyle: SystemUiOverlayStyle(
-                  statusBarColor: HexColor('333739'),
-                  statusBarIconBrightness: Brightness.light,
-                ),
-                elevation: 0,
-              ),
-              textTheme: const TextTheme(
-                bodyLarge: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.white,
-                ),
-              ),
-              bottomNavigationBarTheme: BottomNavigationBarThemeData(
-                type: BottomNavigationBarType.fixed,
-                selectedItemColor: Colors.deepOrange,
-                backgroundColor: HexColor('333739'),
-                unselectedItemColor: Colors.grey,
-                elevation: 20,
-              ),
-              scaffoldBackgroundColor: HexColor('333739'),
-            ),
+            darkTheme: darkTheme,
             debugShowCheckedModeBanner: false,
-            theme: ThemeData(
-              progressIndicatorTheme:
-                  const ProgressIndicatorThemeData(color: Colors.deepOrange),
-              textTheme: const TextTheme(
-                bodyLarge: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.black,
-                ),
-              ),
-              appBarTheme: const AppBarTheme(
-                titleSpacing: 20,
-                titleTextStyle: TextStyle(
-                    color: Colors.black,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold),
-                color: Colors.white,
-                actionsIconTheme: IconThemeData(color: Colors.black),
-                systemOverlayStyle: SystemUiOverlayStyle(
-                  statusBarColor: Colors.white,
-                  statusBarIconBrightness: Brightness.dark,
-                ),
-                elevation: 0,
-              ),
-              bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-                type: BottomNavigationBarType.fixed,
-                selectedItemColor: Colors.deepOrange,
-                backgroundColor: Colors.white,
-                unselectedItemColor: Colors.grey,
-                elevation: 20,
-              ),
-              scaffoldBackgroundColor: Colors.white,
-            ),
+            theme: lightTheme,
             home: const Directionality(
                 textDirection: TextDirection.ltr, child: HomeScreen()),
           );

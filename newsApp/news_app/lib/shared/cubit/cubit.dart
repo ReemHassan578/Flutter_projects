@@ -102,7 +102,6 @@ class NewsCubit extends Cubit<AppStates> {
         if (value.isNotEmpty) {
           sports = value;
           emit(GetSportsDataSuccessState());
-          // print(business[0]);
         }
       },
     ).catchError((e) {
@@ -117,10 +116,16 @@ class NewsCubit extends Cubit<AppStates> {
   getSearchData({String? key, String? typedText}) async {
     emit(DataLoadingState());
 
-    search = await DioHelper.getData('v2/everything',
-        {key!: typedText, 'apiKey': 'e3539dfe040445d38735ac585d86f6af'});
-
-    emit(GetSearchDataSuccessState());
+    try {
+      var list = await DioHelper.getData('v2/everything',
+          {key!: typedText, 'apiKey': 'e3539dfe040445d38735ac585d86f6af'});
+      if (list.isNotEmpty) {
+        search = list;
+        emit(GetSearchDataSuccessState());
+      }
+    } catch (e) {
+      emit(DataErrorState(e.toString()));
+    }
   }
 
   changeThemeMode({bool? isDarkFromSP}) async {

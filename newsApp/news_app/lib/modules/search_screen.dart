@@ -6,7 +6,6 @@ import 'package:news_app/shared/cubit/states.dart';
 
 class SearchsScreen extends StatelessWidget {
   SearchsScreen({super.key});
-  final searchText = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<NewsCubit, AppStates>(
@@ -22,11 +21,10 @@ class SearchsScreen extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: TextFormField(
-                  controller: SearchController(),
                   onChanged: (value) {
                     cubit.getSearchData(key: 'q', typedText: value);
                   },
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                       prefixIcon: Icon(Icons.search), hintText: 'Search'),
                 ),
               ),

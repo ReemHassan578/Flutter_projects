@@ -1,16 +1,17 @@
 # news_app
 
-A new Flutter project.
+A  Flutter project that shows new based on its category in api 
 
-## Getting Started
 
-This project is a starting point for a Flutter application.
+This project is a starting point for using 
 
-A few resources to get you started if this is your first Flutter project:
+- dio package
+- web view
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+![alt text](image.png)
+![alt text](image-1.png)
+![alt text](image-3.png)
+![alt text](image-4.png)
+![alt text](image-2.png)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- [demo]( https://drive.google.com/file/d/1dgDLrYaNHIpUjVpumZpeVacASoZCI_KY/view?usp=drive_link)

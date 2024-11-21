@@ -27,7 +27,7 @@ class NewContainer extends StatelessWidget {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
             ),
-            child: data['urlToImage'] != null
+            child: (data['urlToImage'] != null && data['urlToImage'] != '')
                 ? Image.network(
                     data['urlToImage'],
                     errorBuilder: (context, error, stackTrace) => const Center(
