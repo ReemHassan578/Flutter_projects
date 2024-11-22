@@ -4,12 +4,17 @@ import 'package:shop_app/shared/cubit/cubit.dart';
 import 'package:shop_app/shared/cubit/states.dart';
 import 'package:shop_app/shared/network/local/cache_helper.dart';
 
-import 'modules/onboarding_screen.dart';
+import 'modules/onboarding/onboarding_screen.dart';
+import 'shared/bloc_observer.dart';
+import 'shared/network/remote/dio_helper.dart';
 import 'shared/styles/themes.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  Bloc.observer = MyBlocObserver();
+  DioHelper.init();
   await CacheHelper.init();
+
   bool? isDark = CacheHelper.getBoolen('isDark');
   runApp(MyApp(isDark));
 }
