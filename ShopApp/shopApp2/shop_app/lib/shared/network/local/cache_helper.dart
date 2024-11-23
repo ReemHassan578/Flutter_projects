@@ -21,17 +21,11 @@ class CacheHelper {
     }
   }
 
-  static dynamic get(String key) {}
-
-  static bool? getBoolen(String key) {
-    return prefs.getBool(key);
+  static Future<bool> removeData(String key) async {
+    return await prefs.remove(key);
   }
 
-  static String? getString(String key) {
-    return prefs.getString(key);
-  }
-
-  static int? getInt(String key) {
-    return prefs.getInt(key);
+  static dynamic getData(String key) {
+    return prefs.get(key);
   }
 }

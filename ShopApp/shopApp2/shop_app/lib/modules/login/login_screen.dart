@@ -1,14 +1,13 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shop_app/modules/login/cubit/cubit.dart';
 import 'package:shop_app/modules/login/cubit/states.dart';
-import 'package:shop_app/modules/register_screen.dart';
+import 'package:shop_app/modules/register/register_screen.dart';
 import 'package:shop_app/shared/components/widgets/default_elevatedbutton.dart';
 import 'package:shop_app/shared/components/widgets/default_textformfield.dart';
-import 'package:shop_app/shared/styles/colors.dart';
 
+import '../../layout/layout_Screen.dart';
 import '../../shared/components/components.dart';
 import '../../shared/components/widgets/default_textbutton.dart';
 
@@ -114,9 +113,9 @@ class LoginScreen extends StatelessWidget {
                             ),
                             DefaultTextButton(
                               onTap: () {
-                                Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => const RegisterScreen(),
-                                ));
+                                goToPage(
+                                    page: const RegisterScreen(),
+                                    context: context);
                               },
                               text: 'Register',
                             )
@@ -132,18 +131,14 @@ class LoginScreen extends StatelessWidget {
         },
         listener: (context, state) {
           if (state is LoginErrorState) {
-            showToast(msg: state.error, color: Colors.red);
+            showToast(msg: state.error, state: ToastStates.error);
           }
           if (state is LoginSucessState) {
             // ScaffoldMessenger.of(context)
             //   .showSnackBar(SnackBar(content: Text('errr')));
-            showToast(msg: state.msg, color: Colors.green);
+            showToast(msg: state.msg, state: ToastStates.success);
 
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => const RegisterScreen(),
-              ),
-            );
+            goToPageAndFinish(context: context, page: const HomeScreen());
           }
         },
       ),

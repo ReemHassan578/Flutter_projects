@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shop_app/modules/login/login_screen.dart';
 import 'package:shop_app/modules/onboarding/cubit/cubit.dart';
+import 'package:shop_app/shared/components/components.dart';
 import 'package:shop_app/shared/components/widgets/default_textbutton.dart';
 import 'package:shop_app/shared/styles/colors.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -17,17 +18,22 @@ class OnBoardingScreen extends StatelessWidget {
     return BlocProvider(
       create: (context) => OnBoardingCubit(),
       child: BlocConsumer<OnBoardingCubit, OnBoardingStates>(
-        listener: (context, state) {},
+        listener: (context, state) {
+          if (state is ErrorState) {
+            showToast(msg: 'Error in prefs', state: ToastStates.error);
+          }
+          if (state is ReachEndState) {
+            goToPageAndFinish(page: LoginScreen(), context: context);
+          }
+        },
         builder: (context, state) {
           final cubit = OnBoardingCubit.get(context);
           return Scaffold(
             appBar: AppBar(
               actions: [
                 DefaultTextButton(
-                    onTap: () {
-                      Navigator.of(context).pushReplacement(MaterialPageRoute(
-                        builder: (context) => LoginScreen(),
-                      ));
+                    onTap: () async {
+                      await cubit.reachEnd();
                     },
                     text: 'skip'),
               ],
@@ -40,9 +46,9 @@ class OnBoardingScreen extends StatelessWidget {
                     child: PageView.builder(
                       onPageChanged: (value) {
                         if ((value) == cubit.boardingItems.length - 1) {
-                          cubit.isLastReached(true);
+                          cubit.setIsLastReached(true);
                         } else {
-                          cubit.isLastReached(false);
+                          cubit.setIsLastReached(false);
                         }
                       },
                       controller: pageController,
@@ -70,11 +76,8 @@ class OnBoardingScreen extends StatelessWidget {
                       FloatingActionButton(
                         onPressed: () {
                           if (cubit.isLast) {
-                            Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => LoginScreen(),
-                                ));
+                            cubit.reachEnd();
+
                             //  Navigator.pushAndRemoveUntil(
                             //  context,
                             ///MaterialPageRoute(

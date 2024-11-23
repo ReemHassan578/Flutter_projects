@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shop_app/modules/onboarding/onboarding_screen.dart';
+import 'package:shop_app/shared/network/local/cache_helper.dart';
 
 import 'states.dart';
 
@@ -10,8 +11,18 @@ class OnBoardingCubit extends Cubit<OnBoardingStates> {
     return BlocProvider.of(context);
   }
 
-  isLastReached(bool isLastReached) {
+  setIsLastReached(bool isLastReached) {
     isLast = isLastReached;
+  }
+
+  Future<void> reachEnd() async {
+    bool setOrnot =
+        await CacheHelper.saveData(key: 'onBoardingShown', value: true);
+    if (setOrnot) {
+      emit(ReachEndState());
+    } else {
+      emit(ErrorState());
+    }
   }
 
   bool isLast = false;
