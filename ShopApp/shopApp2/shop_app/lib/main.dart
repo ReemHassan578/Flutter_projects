@@ -41,7 +41,8 @@ class MyApp extends StatelessWidget {
       create: (context) => AppCubit()
         ..changeThemeMode(isDarkFromCache: isDark)
         ..getHomeProduct()
-        ..getCategories(),
+        ..getCategories()
+        ..getFavorites(),
       child: BlocConsumer<AppCubit, AppStates>(
         listener: (context, state) {},
         builder: (context, state) {

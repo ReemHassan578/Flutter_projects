@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shop_app/shared/components/components.dart';
 import 'package:shop_app/shared/cubit/cubit.dart';
 import 'package:shop_app/shared/cubit/states.dart';
 import 'package:shop_app/shared/styles/colors.dart';
@@ -15,7 +16,16 @@ class ProductsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AppCubit, AppStates>(
-      listener: (context, state) {},
+      listener: (context, state) {
+        if (state is ToggleFavoriteSuccessState) {
+          if (state.msg != null) {
+            showToast(msg: state.msg!, state: ToastStates.success);
+          }
+        }
+        if (state is ErrorToggleFavorite) {
+          showToast(msg: state.error, state: ToastStates.error);
+        }
+      },
       builder: (context, state) {
         final cubit = AppCubit.get(context);
         return ConditionalBuilder(
@@ -109,7 +119,7 @@ class ProductsScreen extends StatelessWidget {
               children: List.generate(
                 home.data.products.length,
                 (index) {
-                  return builderGridItem(home.data.products[index]);
+                  return builderGridItem(home.data.products[index], context);
                 },
               ),
             ),
@@ -119,7 +129,7 @@ class ProductsScreen extends StatelessWidget {
     );
   }
 
-  Widget builderGridItem(ProductData item) {
+  Widget builderGridItem(ProductData item, context) {
     return Container(
       color: Colors.white,
       child: Column(
@@ -189,8 +199,20 @@ class ProductsScreen extends StatelessWidget {
                       ),
                     const Spacer(),
                     IconButton(
-                      onPressed: () {},
-                      icon: const Icon(Icons.favorite_border_outlined),
+                      onPressed: () {
+                        AppCubit.get(context).toggleFavoriteProduct(item.id);
+                      },
+                      icon: CircleAvatar(
+                        backgroundColor:
+                            AppCubit.get(context).currentFavorites[item.id]!
+                                ? defaultColor
+                                : Colors.grey,
+                        radius: 15,
+                        child: Icon(
+                            size: 14,
+                            color: Colors.white,
+                            Icons.favorite_border_outlined),
+                      ),
                     ),
                   ],
                 ),

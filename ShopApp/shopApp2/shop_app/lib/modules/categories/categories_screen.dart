@@ -1,3 +1,4 @@
+import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shop_app/shared/cubit/cubit.dart';
@@ -13,15 +14,20 @@ class CategoriesScreen extends StatelessWidget {
     return BlocConsumer<AppCubit, AppStates>(
       builder: (context, state) {
         final cubit = AppCubit.get(context);
-        return Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: ListView.separated(
-              itemBuilder: (context, index) =>
-                  buildCategoryItem(cubit.categories!.data.data[index]),
-              separatorBuilder: (context, index) => const Divider(
-                    color: Colors.grey,
-                  ),
-              itemCount: cubit.categories!.data.data.length),
+        return ConditionalBuilder(
+          fallback: (context) =>
+              Center(child: const CircularProgressIndicator()),
+          condition: cubit.categories != null,
+          builder: (context) => Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: ListView.separated(
+                itemBuilder: (context, index) =>
+                    buildCategoryItem(cubit.categories!.data.data[index]),
+                separatorBuilder: (context, index) => const Divider(
+                      color: Colors.grey,
+                    ),
+                itemCount: cubit.categories!.data.data.length),
+          ),
         );
       },
       listener: (BuildContext context, AppStates state) {},
@@ -32,10 +38,11 @@ class CategoriesScreen extends StatelessWidget {
     return Row(
       children: [
         SizedBox(
-            width: 80,
-            height: 80,
-            child: Image.network(item.image,
-                height: 80, width: 80, fit: BoxFit.cover)),
+          width: 80,
+          height: 80,
+          child: Image.network(item.image,
+              height: 80, width: 80, fit: BoxFit.cover),
+        ),
         const SizedBox(
           width: 10,
         ),
