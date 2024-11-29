@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shop_app/models/categories_model.dart';
 import 'package:shop_app/models/home_model.dart';
+import 'package:shop_app/models/settings_model.dart';
 import 'package:shop_app/modules/categories/categories_screen.dart';
 import 'package:shop_app/modules/favorites/favorites_screen.dart';
 import 'package:shop_app/modules/products/products_screen.dart';
-import 'package:shop_app/modules/settings/settings.dart';
+import 'package:shop_app/modules/settings/settings_screen.dart';
 import 'package:shop_app/shared/cubit/states.dart';
 import 'package:shop_app/shared/network/end_points.dart';
+import 'package:shop_app/shared/network/local/cache_helper.dart';
 import 'package:shop_app/shared/network/remote/dio_helper.dart';
 
 import '../../models/favorites_model.dart';
@@ -31,10 +33,10 @@ class AppCubit extends Cubit<AppStates> {
     emit(ChangeThemeMode());
   }
 
-  List<Widget> pages = const [
-    ProductsScreen(),
-    CategoriesScreen(),
-    FavoritesScreen(),
+  List<Widget> pages = [
+    const ProductsScreen(),
+    const CategoriesScreen(),
+    const FavoritesScreen(),
     SettingsScreen()
   ];
 
@@ -64,7 +66,6 @@ class AppCubit extends Cubit<AppStates> {
         for (final i in homeContents!.data.products) {
           currentFavorites[i.id] = i.inFavorite;
         }
-        print(currentFavorites.toString());
         emit(GetHomeProductsSuccessState());
       },
     ).catchError((error) {
@@ -87,8 +88,6 @@ class AppCubit extends Cubit<AppStates> {
         emit(GetFavoritesSuccessState());
       },
     ).catchError((error) {
-     
-
       emit(ErrorState(error.toString()));
     });
   }
@@ -133,6 +132,67 @@ class AppCubit extends Cubit<AppStates> {
     ).catchError((error) {
       currentFavorites[id] = !currentFavorites[id]!;
       emit(ErrorToggleFavorite(error.toString()));
+    });
+  }
+
+  List searchList = [];
+  search() {}
+
+  SettingsModel? settings;
+  getSettings() {
+    emit(LoadingState());
+    DioHelper.getData(SETTINGS, headers: {
+      'lang': 'en',
+      'Content-Type': 'application/json',
+      'Authorization': token,
+    }).then(
+      (value) {
+        settings = SettingsModel.fromJson(value.data);
+        emit(GetSettingsSuccess(settings!));
+      },
+    ).catchError((error) {
+      emit(ErrorState(error.toString()));
+    });
+  }
+
+  logoutUser() {
+    DioHelper.postData(LOGOUT, data: {}, headers: {
+      'lang': 'en',
+      'Content-Type': 'application/json',
+      'Authorization': token,
+    }).then(
+      (value) {
+        if (value.data['status']) {
+          CacheHelper.removeData('token');
+          emit(LogoutSuccessState());
+        } else {
+          emit(ErrorState('Error in LOGOUT'));
+        }
+      },
+    ).catchError((error) {
+      emit(ErrorState(error.toString()));
+    });
+  }
+
+  update(Map<String, dynamic> data) {
+    emit(LoadingUpdateState());
+    DioHelper.putData(UPDATEPROFILE, data: data, headers: {
+      'lang': 'en',
+      'Content-Type': 'application/json',
+      'Authorization': token,
+    }).then(
+      (value) {
+        print(value.data);
+        settings = SettingsModel.fromJson(value.data);
+
+        if (settings!.status) {
+          emit(UpdateSuccessState(settings!));
+        } else {
+          emit(ErrorState(settings!.msg ?? 'error'));
+        }
+      },
+    ).catchError((error) {
+      emit(ErrorState(error.toString()));
     });
   }
 }

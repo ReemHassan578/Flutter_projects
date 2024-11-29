@@ -10,8 +10,11 @@ class DefaultTextFormField extends StatelessWidget {
   final bool? isPassword;
   final void Function()? sufPress;
 
+  final void Function(String)? onSubmit;
+
   const DefaultTextFormField({
     super.key,
+    this.onSubmit,
     required this.type,
     required this.controller,
     required this.label,
@@ -26,6 +29,7 @@ class DefaultTextFormField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       validator: validator,
+      onFieldSubmitted: onSubmit,
       keyboardType: type,
       controller: controller,
       decoration: InputDecoration(

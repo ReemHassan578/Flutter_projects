@@ -31,17 +31,17 @@ class LoginCubit extends Cubit<LoginStates> {
       'password': password
     }, headers: {
       'Content-Type': 'application/json',
-      'lang': 'ar',
+      'lang': 'en',
     }).then(
       (value) {
         loginData = LoginModel.fromJson(value.data);
         if (loginData!.status) {
-          token = loginData!.data!.token;
           CacheHelper.saveData(key: 'token', value: loginData!.data!.token)
               .then(
             (value) {
               if (value) {
                 emit(LoginSucessState(loginData!.message));
+                token = loginData!.data!.token;
               } else {
                 emit(LoginErrorState('Error in prefs'));
               }

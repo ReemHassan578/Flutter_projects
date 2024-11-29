@@ -1,3 +1,5 @@
+import 'package:shop_app/models/settings_model.dart';
+
 abstract class AppStates {}
 
 class InitialState extends AppStates {}
@@ -19,13 +21,28 @@ class ToggleFavoriteSuccessState extends AppStates {
   ToggleFavoriteSuccessState({this.msg});
 }
 
+class GetSettingsSuccess extends AppStates {
+  final SettingsModel settings;
+
+  GetSettingsSuccess(this.settings);
+}
+
+class LoadingUpdateState extends AppStates {}
+
+class LogoutSuccessState extends AppStates {}
+
+class UpdateSuccessState extends AppStates {
+  final SettingsModel update;
+  UpdateSuccessState(this.update);
+}
+
 class ErrorToggleFavorite extends AppStates {
   final String error;
   ErrorToggleFavorite(this.error);
 }
-class LoadingToggleFavorite extends AppStates {
 
-}
+class LoadingToggleFavorite extends AppStates {}
+
 class ErrorState extends AppStates {
   final String error;
   ErrorState(this.error);

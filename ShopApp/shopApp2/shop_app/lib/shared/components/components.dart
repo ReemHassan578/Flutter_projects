@@ -35,14 +35,15 @@ void showToast({required String msg, required ToastStates state}) {
       fontSize: 14.0);
 }
 
-goToPage({required Widget page, required BuildContext context}) {
-  Navigator.of(context).push(MaterialPageRoute(
+Future goToPage({required Widget page, required BuildContext context}) async {
+  return Navigator.of(context).push(MaterialPageRoute(
     builder: (context) => page,
   ));
 }
 
-goToPageAndFinish({required Widget page, required BuildContext context}) {
-  Navigator.of(context).pushReplacement(MaterialPageRoute(
+Future goToPageAndFinish(
+    {required Widget page, required BuildContext context}) async {
+  return Navigator.of(context).pushReplacement(MaterialPageRoute(
     builder: (context) => page,
   ));
 }

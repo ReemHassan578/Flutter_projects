@@ -40,9 +40,9 @@ class MyApp extends StatelessWidget {
     return BlocProvider(
       create: (context) => AppCubit()
         ..changeThemeMode(isDarkFromCache: isDark)
-        ..getHomeProduct()
-        ..getCategories()
-        ..getFavorites(),
+        ..getCategories(),
+      // ..getFavorites()
+      //  ..getSettings(),
       child: BlocConsumer<AppCubit, AppStates>(
         listener: (context, state) {},
         builder: (context, state) {

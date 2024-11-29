@@ -10,12 +10,22 @@ import 'package:shop_app/shared/components/widgets/default_textformfield.dart';
 import '../../layout/layout_Screen.dart';
 import '../../shared/components/components.dart';
 import '../../shared/components/widgets/default_textbutton.dart';
+import '../../shared/cubit/cubit.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   LoginScreen({super.key});
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController emailController = TextEditingController();
+
   final TextEditingController passwordController = TextEditingController();
+
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -114,8 +124,7 @@ class LoginScreen extends StatelessWidget {
                             DefaultTextButton(
                               onTap: () {
                                 goToPage(
-                                    page: const RegisterScreen(),
-                                    context: context);
+                                    page: RegisterScreen(), context: context);
                               },
                               text: 'Register',
                             )
@@ -138,7 +147,16 @@ class LoginScreen extends StatelessWidget {
             //   .showSnackBar(SnackBar(content: Text('errr')));
             showToast(msg: state.msg, state: ToastStates.success);
 
-            goToPageAndFinish(context: context, page: const HomeScreen());
+            goToPageAndFinish(context: context, page: const HomeScreen()).then(
+              (value) {
+                if (mounted) {
+                  BlocProvider.of<AppCubit>(context)
+                    ..getFavorites()
+                    ..getSettings()
+                    ..getHomeProduct();
+                }
+              },
+            );
           }
         },
       ),

@@ -17,7 +17,9 @@ class FavoritesScreen extends StatelessWidget {
         builder: (context, state) {
           final cubit = AppCubit.get(context);
           return ConditionalBuilder(
-              condition: cubit.favorites != null,
+              condition: state is! LoadingState &&
+                  cubit.homeContents != null &&
+                  cubit.favorites != null,
               builder: (context) {
                 return Padding(
                   padding: const EdgeInsets.all(20.0),
@@ -71,19 +73,17 @@ class FavoritesScreen extends StatelessWidget {
           const SizedBox(width: 15),
           Expanded(
             child: Column(
-              mainAxisSize: MainAxisSize.min,
               children: [
-                Expanded(
-                  child: Text(
-                    item.name,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
-                      height: 1,
-                      fontSize: 12,
-                    ),
+                Text(
+                  item.name,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    height: 1,
+                    fontSize: 12,
                   ),
                 ),
+                const Spacer(),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [

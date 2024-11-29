@@ -20,7 +20,7 @@ class HomeScreen extends StatelessWidget {
               IconButton(
                 icon: const Icon(Icons.search),
                 onPressed: () {
-                  goToPage(page: const SearchScreen(), context: context);
+                  goToPage(page: SearchScreen(), context: context);
                 },
               ),
             ],

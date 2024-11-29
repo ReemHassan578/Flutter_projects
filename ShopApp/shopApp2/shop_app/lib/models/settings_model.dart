@@ -1,17 +1,25 @@
 class SettingsModel {
   final bool status;
+  final SettingsData? data;
   final String? msg;
-  final SettingsData data;
   SettingsModel.fromJson(Map<String, dynamic> settings)
       : status = settings['status'],
         msg = settings['message'],
-        data = SettingsData.fromJson(settings['data']);
+        data = settings['data'] != null
+            ? SettingsData.fromJson(settings['data'])
+            : null;
 }
 
 class SettingsData {
-  final String about;
-  final String terms;
+  final int id;
+  final String name;
+  final String email;
+  final String phone;
+  final String image;
   SettingsData.fromJson(Map<String, dynamic> data)
-      : about = data['about'],
-        terms = data['terms'];
+      : id = data['id'],
+        name = data['name'],
+        email = data['email'],
+        phone = data['phone'],
+        image = data['image'];
 }

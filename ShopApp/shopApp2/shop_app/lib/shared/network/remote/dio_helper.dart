@@ -12,6 +12,20 @@ class DioHelper {
     );
   }
 
+  static Future<Response> putData(
+    String url, {
+    Map<String, dynamic>? headers,
+    required Map<String, dynamic> data,
+  }) {
+    headers = headers ??
+        {
+          'Content-Type': 'application/json',
+          'lan': 'ar',
+        };
+    dio.options.headers = headers;
+    return dio.put(url, data: data);
+  }
+
   static Future<Response> getData(String url, {Map<String, dynamic>? headers}) {
     headers = headers ??
         {
@@ -29,7 +43,7 @@ class DioHelper {
         'lan': 'ar',
       },
       Map<String, dynamic>? query,
-      required Map<String, dynamic> data}) {
+      required dynamic data}) {
     dio.options.headers = headers;
 
     return dio.post(url, queryParameters: query, data: data);
