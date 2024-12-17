@@ -1,21 +1,40 @@
 {
   "project_info": {
-    "project_number": "829200659961",
-    "project_id": "chat2-9de03",
-    "storage_bucket": "chat2-9de03.firebasestorage.app"
+    "project_number": "663566814460",
+    "project_id": "chat-e4e86",
+    "storage_bucket": "chat-e4e86.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:829200659961:android:0a19f44cd60f01b945b928",
+        "mobilesdk_app_id": "1:663566814460:android:6b1a43a3f046f4211b1b79",
         "android_client_info": {
-          "package_name": "com.chat.app"
+          "package_name": "com.chat2.app"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyDGXUwPbwQY9oi6iO4cOSwzWQ1cJz470Js"
+          "current_key": "AIzaSyANhRFJXMUNaXPI3vGgJxlBz67cwoA_6OI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:663566814460:android:51c86127788f23bf1b1b79",
+        "android_client_info": {
+          "package_name": "com.example.chat"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyANhRFJXMUNaXPI3vGgJxlBz67cwoA_6OI"
         }
       ],
       "services": {

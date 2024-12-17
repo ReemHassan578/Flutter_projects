@@ -2,7 +2,13 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>CFBundleDevelopmentRegion</key>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>allow access to gallery </string>
+	<key>NSCameraUsageDescription</key>
+	<string>allow access to camera </string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>allow access to microphone </string>
+	<key>CFBundleDevelopmentRegion</key> 
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
 	<string>Chat2</string>
