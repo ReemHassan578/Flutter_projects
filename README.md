@@ -8,6 +8,6 @@ I have learned many things :
 - Firebase (authentication - firestore - storage -real-time database)
 - local Storage ( SQflite - shared preferences)
 - native mobile features (camera - GPS - gallery)
-  -Google Maps API
+- Google Maps API
 - adaptiveness and responsiveness 
 
