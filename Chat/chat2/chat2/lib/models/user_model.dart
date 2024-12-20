@@ -73,3 +73,12 @@ class UserModel {
         bio = data['bio'],
         coverImage = data['coverImage'];
 }
+
+class ChatMessage {
+  final String time;
+  final String messageContent;
+  final String uIdSender;
+
+  ChatMessage(this.uIdSender,
+      {required this.time, required this.messageContent});
+}

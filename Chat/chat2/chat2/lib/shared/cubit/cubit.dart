@@ -227,7 +227,7 @@ class HomeCubit extends Cubit<HomeStates> {
       var refPost = await FireStoreHelper.addPostToFirebase(post);
       post.updatePostuId(refPost.id);
 
-      //await FireStoreHelper.updatePostuId(refPost.id);
+      postsFromFireStore!.add(post);
       emit(PostSuccessState());
     } catch (error) {
       emit(ErrorState(error.toString()));
@@ -250,7 +250,7 @@ class HomeCubit extends Cubit<HomeStates> {
       var info = i.data() as Map<String, dynamic>;
 
       Map<String, bool> likes = {};
-      Map<String, Map<String, String>> comments = {};
+      Map<String, List<Comment>> comments = {};
       var likesRef = await getPostsLikes(i.id);
       var commentsRef = await getPostsComments(i.id);
 
@@ -260,10 +260,10 @@ class HomeCubit extends Cubit<HomeStates> {
       }
       for (final j in commentsRef.docs) {
         Map<String, dynamic> infoComment = j.data();
-        comments[j.id] = {};
+        comments[j.id] = [];
         infoComment.forEach(
           (key, value) {
-            comments[j.id]?.addAll({key: value});
+            comments[j.id]?.add(Comment(time: key, commentContent: value));
           },
         );
       }
@@ -307,15 +307,22 @@ class HomeCubit extends Cubit<HomeStates> {
     emit(AddNewCommentSuccess());
   }
 
-  List<UserModel> users = [];
+  List<UserModel>? users;
 
   void getUsers() {
+    List<UserModel> tempUsers = [];
     FireStoreHelper.getUsers().then(
       (value) {
         for (var element in value.docs) {
-          users.add(UserModel.fromJson(element.data() as Map<String, dynamic>));
+          if (uId == element.id) {
+            continue;
+          }
+          {
+            tempUsers.add(
+                UserModel.fromJson(element.data() as Map<String, dynamic>));
+          }
         }
-        print(users[0].toMap());
+        users = tempUsers;
         emit(GetUsersSuccessState());
       },
     ).catchError((error) {

@@ -38,7 +38,7 @@ class NewPostScreen extends StatelessWidget {
                       cubit.addPost(
                         PostModel(
                             useruId: uId!,
-                            date: DateFormat.yMEd().format(DateTime.now()),
+                            date: DateTime.now().toString(),
                             imageProfile: cubit.user!.imageProfile,
                             name: cubit.user!.name,
                             contentPost: thoughtsController.text),

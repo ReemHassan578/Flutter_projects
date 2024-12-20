@@ -29,17 +29,17 @@ class FireStoreHelper {
     return posts.add(post.toMap());
   }
 
-  static Future<QuerySnapshot<Object?>> getPosts() async {
+  static Future<QuerySnapshot<Object?>> getPosts() {
     return posts.get();
   }
 
   static Future<QuerySnapshot<Map<String, dynamic>>> getPostsLikes(
-      String postuId, String useruId) async {
+      String postuId, String useruId) {
     return posts.doc(postuId).collection('likes').get();
   }
 
   static Future<QuerySnapshot<Map<String, dynamic>>> getPostsComments(
-      String postuId, String useruId) async {
+      String postuId, String useruId) {
     return posts.doc(postuId).collection('comments').get();
   }
 
@@ -57,7 +57,7 @@ class FireStoreHelper {
 
   static Future<String> addCommentToFirestore(
       String postuId, String useruId, String postContent) async {
-    String date = '${DateTime.now()}';
+    String date = DateTime.now().toString();
     posts
         .doc(postuId)
         .collection('comments')
@@ -68,5 +68,23 @@ class FireStoreHelper {
 
   static Future<QuerySnapshot<Object?>> getUsers() {
     return users.get();
+  }
+
+  static void sendMessage(String senderuId, String time, String message) {
+    users
+        .doc(uId)
+        .collection('chats')
+        .doc(senderuId)
+        .set({time: message, 'senderuId': uId}, SetOptions(merge: true));
+    users
+        .doc(senderuId)
+        .collection('chats')
+        .doc(uId)
+        .set({time: message, 'senderuId': uId}, SetOptions(merge: true));
+  }
+
+  static Stream<DocumentSnapshot<Map<String, dynamic>>>
+      getChatsBetweensnderAndReciever(String senderuId) {
+    return users.doc(uId).collection('chats').doc(senderuId).snapshots();
   }
 }

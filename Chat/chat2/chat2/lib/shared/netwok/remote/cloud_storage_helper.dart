@@ -18,4 +18,11 @@ class CloudStorageHelper {
     File file = File(path);
     return refImage.putFile(file);
   }
+
+  static Future<TaskSnapshot> uploadSendImage(
+      String senderuId, String path) async {
+    Reference refImage = storageRef.child('users/$uId/$senderuId/$path.jpeg');
+    File file = File(path);
+    return refImage.putFile(file);
+  }
 }

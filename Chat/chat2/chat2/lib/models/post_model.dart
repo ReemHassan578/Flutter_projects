@@ -6,7 +6,7 @@ class PostModel {
   final String date;
   String postImage;
   Map<String, bool> likes;
-  Map<String, Map<String, String>> comments;
+  Map<String, List<Comment>> comments;
   final String useruId;
 
   PostModel(
@@ -52,7 +52,7 @@ class PostModel {
     likes = dataLikes;
   }
 
-  void updateCommentsInfo(Map<String, Map<String, String>> dataComments) {
+  void updateCommentsInfo(Map<String, List<Comment>> dataComments) {
     comments = dataComments;
   }
 
@@ -68,7 +68,7 @@ class PostModel {
   int getCommentsNum() {
     int commentsNum = 0;
     for (var element in comments.entries) {
-      commentsNum += element.value.entries.length;
+      commentsNum += element.value.length;
     }
     return commentsNum;
   }
@@ -86,9 +86,16 @@ class PostModel {
       required String content,
       required String date}) {
     if (comments.containsKey(useruId)) {
-      comments[useruId]?.addAll({date: content});
+      comments[useruId]?.add(Comment(time: date, commentContent: content));
     } else {
-      comments[useruId] = {date: content};
+      comments[useruId] = [Comment(time: date, commentContent: content)];
     }
   }
+}
+
+class Comment {
+  final String time;
+  final String commentContent;
+
+  Comment({required this.time, required this.commentContent});
 }
