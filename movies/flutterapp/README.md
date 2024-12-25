@@ -1,6 +1,8 @@
 # MoviesApp   
 
-A Flutter app that showcases movies fetched from an API using cubit state management. The app supports offline functionality , displays detailed movie information, including an animated text rating and allows users to search for movies by title
+This Flutter application showcases movies fetched from an API using Cubit state management. Key features include offline support, detailed movie information with animated ratings, and a search bar for finding movies by title. The app uses CustomScrollView for a responsive layout combining collapsible appbar and movie details.
+
+
 
 
 ![alt text](image.png)
