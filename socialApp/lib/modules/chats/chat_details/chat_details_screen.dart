@@ -1,8 +1,8 @@
-import 'package:chat2/modules/chats/chat_details/cubit/cubit.dart';
-import 'package:chat2/modules/chats/chat_details/cubit/states.dart';
-import 'package:chat2/shared/components/constants.dart';
-import 'package:chat2/shared/styles/colors.dart';
-import 'package:chat2/shared/styles/icon_broken.dart';
+import 'cubit/cubit.dart';
+import 'cubit/states.dart';
+import '../../../shared/components/constants.dart';
+import '../../../shared/styles/colors.dart';
+import '../../../shared/styles/icon_broken.dart';
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -38,7 +38,7 @@ class ChatDetailsScreen extends StatelessWidget {
             ),
           ),
           body: ConditionalBuilder(
-            condition: cubit.chats != null,
+            condition: cubit.chats?[user.uId] != null,
             fallback: (context) =>
                 const Center(child: CircularProgressIndicator()),
             builder: (context) {
@@ -151,15 +151,23 @@ class ChatDetailsScreen extends StatelessWidget {
       return Align(
         alignment: AlignmentDirectional.centerStart,
         child: Container(
-            margin: EdgeInsets.symmetric(horizontal: 8.w, vertical: 8.h),
-            padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 8.h),
-            decoration: BoxDecoration(
-                color: grey.withOpacity(0.4),
-                borderRadius: BorderRadiusDirectional.only(
-                    topStart: Radius.circular(10.r),
-                    topEnd: Radius.circular(10.r),
-                    bottomEnd: Radius.circular(10.r))),
-            child: Text(message.messageContent)),
+          margin: EdgeInsets.symmetric(horizontal: 8.w, vertical: 8.h),
+          padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 8.h),
+          decoration: BoxDecoration(
+              color: grey.withOpacity(0.4),
+              borderRadius: BorderRadiusDirectional.only(
+                  topStart: Radius.circular(10.r),
+                  topEnd: Radius.circular(10.r),
+                  bottomEnd: Radius.circular(10.r))),
+          child: message.messageContent.startsWith('http')
+              ? Image.network(
+                  fit: BoxFit.cover,
+                  message.messageContent,
+                  height: 140.h,
+                  width: 200.w,
+                )
+              : Text(message.messageContent),
+        ),
       );
     } else {
       return Align(

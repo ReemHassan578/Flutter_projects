@@ -1,8 +1,11 @@
-import 'package:chat2/modules/chats/chat_details/cubit/cubit.dart';
-import 'package:chat2/modules/login/login_screen.dart';
-import 'package:chat2/shared/cubit/cubit.dart';
-import 'package:chat2/shared/netwok/remote/fcm_helper.dart';
-import 'package:chat2/shared/styles/themes.dart';
+import 'package:chat2/modules/login/cubit/cubit.dart';
+import 'package:chat2/modules/register/cubit/cubit.dart';
+
+import 'modules/chats/chat_details/cubit/cubit.dart';
+import 'modules/login/login_screen.dart';
+import 'shared/cubit/cubit.dart';
+import 'shared/netwok/remote/fcm_helper.dart';
+import 'shared/styles/themes.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -14,10 +17,14 @@ import 'layout/home_layout.dart';
 import 'shared/bloc_observer.dart';
 import 'shared/components/constants.dart';
 
-Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  print('On Backgroung Message');
+final ValueNotifier<int> notificationCountNotifier = ValueNotifier<int>(0);
 
-  print("Handling a background message: ${message.messageId}");
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  _incrementNotificationCount();
+}
+
+void _incrementNotificationCount() async {
+  notificationCountNotifier.value += 1;
 }
 
 void main() async {
@@ -26,14 +33,12 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  var token = await FirebaseMessaging.instance.getToken();
 
-  print(token);
   FcmHelper.getGoogleAccessToken();
   // foreground fcm
   FirebaseMessaging.onMessage.listen(
     (event) {
-      print(event.data.toString());
+      _incrementNotificationCount();
     },
   );
 
@@ -63,6 +68,12 @@ class MyApp extends StatelessWidget {
           ),
           BlocProvider(
             create: (context) => ChatDetailsCubit(),
+          ),
+          BlocProvider(
+            create: (context) => LoginCubit(),
+          ),
+          BlocProvider(
+            create: (context) => RegisterCubit(),
           )
         ],
         child: MaterialApp(
@@ -85,6 +96,8 @@ class MyApp extends StatelessWidget {
 
                 return const HomeScreen();
               }
+              uId = null;
+
               return LoginScreen();
             },
           ),

@@ -1,8 +1,8 @@
-import 'package:chat2/modules/chats/chat_details/chat_details_screen.dart';
-import 'package:chat2/modules/chats/chat_details/cubit/cubit.dart';
-import 'package:chat2/shared/components/components.dart';
-import 'package:chat2/shared/cubit/cubit.dart';
-import 'package:chat2/shared/cubit/states.dart';
+import 'chat_details/chat_details_screen.dart';
+import 'chat_details/cubit/cubit.dart';
+import '../../shared/components/components.dart';
+import '../../shared/cubit/cubit.dart';
+import '../../shared/cubit/states.dart';
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -27,7 +27,7 @@ class ChatScreen extends StatelessWidget {
           builder: (context) => ConditionalBuilder(
             condition: cubit.users!.isNotEmpty,
             fallback: (context) => const Center(
-              child:  Text('No users yet!'),
+              child: Text('No users yet!'),
             ),
             builder: (context) => Container(
               padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),

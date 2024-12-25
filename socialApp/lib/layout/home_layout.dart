@@ -1,8 +1,9 @@
-import 'package:chat2/modules/new_post/new_post_screen.dart';
-import 'package:chat2/shared/components/components.dart';
-import 'package:chat2/shared/components/widgets/default_textbutton.dart';
-import 'package:chat2/shared/cubit/cubit.dart';
-import 'package:chat2/shared/styles/icon_broken.dart';
+import '../main.dart';
+import '../modules/new_post/new_post_screen.dart';
+import '../shared/components/components.dart';
+import '../shared/components/widgets/default_textbutton.dart';
+import '../shared/cubit/cubit.dart';
+import '../shared/styles/icon_broken.dart';
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -33,9 +34,15 @@ class HomeScreen extends StatelessWidget {
           return Scaffold(
             appBar: AppBar(
               actions: [
-                IconButton(
-                  onPressed: () {},
-                  icon: const Icon(IconBroken.Notification),
+                ValueListenableBuilder<int>(
+                  valueListenable: notificationCountNotifier,
+                  builder: (context, value, child) => Badge.count(
+                    count: notificationCountNotifier.value,
+                    child: IconButton(
+                      onPressed: () {},
+                      icon: const Icon(IconBroken.Notification),
+                    ),
+                  ),
                 ),
                 IconButton(
                   onPressed: () {},

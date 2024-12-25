@@ -1,10 +1,10 @@
-import 'package:chat2/modules/edit/edit_profile_screen.dart';
-import 'package:chat2/shared/components/components.dart';
-import 'package:chat2/shared/cubit/cubit.dart';
-import 'package:chat2/shared/cubit/states.dart';
-import 'package:chat2/shared/styles/colors.dart';
-import 'package:chat2/shared/styles/icon_broken.dart';
-import 'package:chat2/shared/styles/styles.dart';
+import '../edit/edit_profile_screen.dart';
+import '../../shared/components/components.dart';
+import '../../shared/cubit/cubit.dart';
+import '../../shared/cubit/states.dart';
+import '../../shared/styles/colors.dart';
+import '../../shared/styles/icon_broken.dart';
+import '../../shared/styles/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -14,8 +14,7 @@ class SettingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<HomeCubit, HomeStates>(
-      listener: (context, state) {},
+    return BlocBuilder<HomeCubit, HomeStates>(
       builder: (context, state) {
         final cubit = HomeCubit.get(context);
         return Padding(
@@ -128,6 +127,24 @@ class SettingsScreen extends StatelessWidget {
                       },
                       child: Icon(
                         IconBroken.Edit,
+                        size: 20.sp,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 10.w,
+                  ),
+                  Container(
+                    height: 40.h,
+                    decoration: BoxDecoration(
+                        border: Border.all(color: Colors.grey),
+                        borderRadius: BorderRadius.circular(5.r)),
+                    child: TextButton(
+                      onPressed: () {
+                        cubit.logOut();
+                      },
+                      child: Icon(
+                        Icons.logout_rounded,
                         size: 20.sp,
                       ),
                     ),

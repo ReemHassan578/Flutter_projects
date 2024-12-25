@@ -1,8 +1,7 @@
 import 'dart:io';
-
-import 'package:chat2/models/user_model.dart';
-import 'package:chat2/modules/chats/chat_details/cubit/states.dart';
-import 'package:chat2/shared/netwok/remote/cloud_storage_helper.dart';
+import '../../../../models/user_model.dart';
+import 'states.dart';
+import '../../../../shared/netwok/remote/cloud_storage_helper.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -44,19 +43,13 @@ class ChatDetailsCubit extends Cubit<ChatDetailsStates> {
     FireStoreHelper.getChatsBetweensnderAndReciever(senderuId).listen(
       (data) {
         chatsTemp[senderuId] = [];
-        data.data()?.forEach(
-          (key, value) {
-            if (key != 'senderuId') {
-              chatsTemp[senderuId]!.add(ChatMessage(data.data()?['senderuId'],
-                  time: key, messageContent: value));
-            }
-          },
-        );
-        chatsTemp[senderuId]!.sort(
-          (a, b) {
-            return a.time.compareTo(b.time);
-          },
-        );
+
+        for (var element in data.docs) {
+          chatsTemp[senderuId]!.add(ChatMessage(element.data()['senderuId'],
+              time: element.data()['time'],
+              messageContent: element.data()['title']));
+        }
+
         chats = chatsTemp;
 
         emit(GetChatsSuccessState());

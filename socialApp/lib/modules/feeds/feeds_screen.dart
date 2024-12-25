@@ -1,9 +1,9 @@
-import 'package:chat2/models/post_model.dart';
-import 'package:chat2/shared/cubit/cubit.dart';
-import 'package:chat2/shared/cubit/states.dart';
-import 'package:chat2/shared/styles/colors.dart';
-import 'package:chat2/shared/styles/icon_broken.dart';
-import 'package:chat2/shared/styles/styles.dart';
+import '../../models/post_model.dart';
+import '../../shared/cubit/cubit.dart';
+import '../../shared/cubit/states.dart';
+import '../../shared/styles/colors.dart';
+import '../../shared/styles/icon_broken.dart';
+import '../../shared/styles/styles.dart';
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

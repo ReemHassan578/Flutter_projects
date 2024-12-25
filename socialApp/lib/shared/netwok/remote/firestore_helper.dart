@@ -1,6 +1,6 @@
-import 'package:chat2/models/post_model.dart';
-import 'package:chat2/models/user_model.dart';
-import 'package:chat2/shared/components/constants.dart';
+import '../../../models/post_model.dart';
+import '../../../models/user_model.dart';
+import '../../components/constants.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class FireStoreHelper {
@@ -75,16 +75,21 @@ class FireStoreHelper {
         .doc(uId)
         .collection('chats')
         .doc(senderuId)
-        .set({time: message, 'senderuId': uId}, SetOptions(merge: true));
-    users
-        .doc(senderuId)
-        .collection('chats')
-        .doc(uId)
-        .set({time: message, 'senderuId': uId}, SetOptions(merge: true));
+        .collection(senderuId)
+        .add({'title': message, 'time': time, 'senderuId': uId});
+    users.doc(senderuId).collection('chats').doc(uId).collection(uId!).add(
+      {'title': message, 'time': time, 'senderuId': uId},
+    );
   }
 
-  static Stream<DocumentSnapshot<Map<String, dynamic>>>
+  static Stream<QuerySnapshot<Map<String, dynamic>>>
       getChatsBetweensnderAndReciever(String senderuId) {
-    return users.doc(uId).collection('chats').doc(senderuId).snapshots();
+    return users
+        .doc(uId)
+        .collection('chats')
+        .doc(senderuId)
+        .collection(senderuId)
+        .orderBy('time', descending: false)
+        .snapshots();
   }
 }

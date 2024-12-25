@@ -5,14 +5,12 @@ class PostModel {
   final String contentPost;
   final String date;
   String postImage;
-  Map<String, bool> likes;
-  Map<String, List<Comment>> comments;
+  Map<String, bool> likes = {};
+  Map<String, List<Comment>> comments = {};
   final String useruId;
 
   PostModel(
-      {this.comments = const {},
-      required this.useruId,
-      this.likes = const {},
+      {required this.useruId,
       this.postImage = '',
       required this.date,
       required this.imageProfile,
@@ -20,14 +18,12 @@ class PostModel {
       required this.contentPost});
 
   PostModel.fromJson(Map<String, dynamic> json)
-      : comments = const {},
-        useruId = json['useruId'],
+      : useruId = json['useruId'],
         postImage = json['postImage'],
         date = json['date'],
         imageProfile = json['imageProfile'],
         name = json['name'],
-        contentPost = json['contentPost'],
-        likes = const {};
+        contentPost = json['contentPost'];
 
   Map<String, dynamic> toMap() {
     return {

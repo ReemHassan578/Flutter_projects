@@ -9,6 +9,8 @@ class ErrorState extends HomeStates {
   ErrorState(this.error);
 }
 
+class RecieveNotificationState extends HomeStates {}
+
 class LoadingSendEmailVerificationState extends HomeStates {}
 
 class SendEmailVerificationSuccessState extends HomeStates {}

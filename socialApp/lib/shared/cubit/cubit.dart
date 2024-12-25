@@ -1,15 +1,15 @@
 import 'dart:io';
 
-import 'package:chat2/models/post_model.dart';
-import 'package:chat2/modules/chats/chat_screen.dart';
-import 'package:chat2/modules/feeds/feeds_screen.dart';
-import 'package:chat2/modules/settings/settings_screen.dart';
-import 'package:chat2/modules/users/users_screen.dart';
-import 'package:chat2/shared/components/constants.dart';
-import 'package:chat2/shared/cubit/states.dart';
-import 'package:chat2/shared/netwok/remote/cloud_storage_helper.dart';
-import 'package:chat2/shared/netwok/remote/firestore_helper.dart';
-import 'package:chat2/shared/styles/icon_broken.dart';
+import '../../models/post_model.dart';
+import '../../modules/chats/chat_screen.dart';
+import '../../modules/feeds/feeds_screen.dart';
+import '../../modules/settings/settings_screen.dart';
+import '../../modules/users/users_screen.dart';
+import '../components/constants.dart';
+import 'states.dart';
+import '../netwok/remote/cloud_storage_helper.dart';
+import '../netwok/remote/firestore_helper.dart';
+import '../styles/icon_broken.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -98,6 +98,12 @@ class HomeCubit extends Cubit<HomeStates> {
       },
     ).catchError((error) {
       emit(ErrorState(error.toString()));
+    });
+  }
+
+  logOut() {
+    FirebaseAuth.instance.signOut().then((_) {
+      uId = null;
     });
   }
 
@@ -228,6 +234,7 @@ class HomeCubit extends Cubit<HomeStates> {
       post.updatePostuId(refPost.id);
 
       postsFromFireStore!.add(post);
+
       emit(PostSuccessState());
     } catch (error) {
       emit(ErrorState(error.toString()));

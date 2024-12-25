@@ -1,10 +1,10 @@
-import 'package:chat2/shared/components/components.dart';
-import 'package:chat2/shared/components/widgets/default_textbutton.dart';
-import 'package:chat2/shared/components/widgets/default_textformfield.dart';
-import 'package:chat2/shared/cubit/cubit.dart';
-import 'package:chat2/shared/cubit/states.dart';
-import 'package:chat2/shared/styles/colors.dart';
-import 'package:chat2/shared/styles/icon_broken.dart';
+import '../../shared/components/components.dart';
+import '../../shared/components/widgets/default_textbutton.dart';
+import '../../shared/components/widgets/default_textformfield.dart';
+import '../../shared/cubit/cubit.dart';
+import '../../shared/cubit/states.dart';
+import '../../shared/styles/colors.dart';
+import '../../shared/styles/icon_broken.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

@@ -1,4 +1,4 @@
-import 'package:chat2/models/user_model.dart';
+import '../../../models/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../shared/netwok/remote/firestore_helper.dart';

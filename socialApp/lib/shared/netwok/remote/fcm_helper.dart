@@ -1,4 +1,6 @@
-import 'package:chat2/shared/netwok/remote/http_helper.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+
+import 'http_helper.dart';
 import 'package:http/http.dart' as http;
 import 'package:googleapis_auth/auth_io.dart' as auth;
 
@@ -22,7 +24,6 @@ class FcmHelper {
         HttpHelper.client!);
 
     HttpHelper.client!.close();
-    print(cred.accessToken.data);
     return cred.accessToken.data;
   }
 

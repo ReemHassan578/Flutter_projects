@@ -51,6 +51,7 @@ dependencies:
   googleapis_auth: ^1.6.0
   http: ^1.2.2
   bloc: ^8.1.4
+  icon_badge: ^1.0.0
 
 dev_dependencies:
   flutter_test:
