@@ -7,7 +7,6 @@ import 'package:conditional_builder_null_safety/conditional_builder_null_safety.
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:intl/intl.dart';
 
 import '../../../models/user_model.dart';
 
@@ -83,7 +82,7 @@ class ChatDetailsScreen extends StatelessWidget {
                                   onPressed: () {
                                     cubit.deletePickedImage();
                                   },
-                                  icon: Icon(Icons.delete)),
+                                  icon: const Icon(Icons.delete)),
                             ),
                           ),
                           Align(
@@ -102,7 +101,7 @@ class ChatDetailsScreen extends StatelessWidget {
                                         DateTime.now().toString(),
                                       );
                                     },
-                                    icon: Icon(Icons.send)),
+                                    icon: const Icon(Icons.send)),
                               ),
                             ),
                           ),

@@ -8,8 +8,6 @@ import 'package:chat2/shared/styles/icon_broken.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:intl/intl.dart';
-
 import '../../shared/components/constants.dart';
 
 class NewPostScreen extends StatelessWidget {

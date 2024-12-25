@@ -56,7 +56,7 @@ ThemeData darkTheme = ThemeData(
         color: Colors.white, fontSize: 20.sp, fontWeight: FontWeight.w700),
     color: grey,
     actionsIconTheme: const IconThemeData(color: Colors.white),
-    systemOverlayStyle: SystemUiOverlayStyle(
+    systemOverlayStyle: const SystemUiOverlayStyle(
       statusBarColor: grey,
       statusBarIconBrightness: Brightness.light,
     ),
@@ -71,7 +71,7 @@ ThemeData darkTheme = ThemeData(
     labelMedium: labelMedium,
     headlineMedium: headlineMedium,
   ),
-  bottomNavigationBarTheme: BottomNavigationBarThemeData(
+  bottomNavigationBarTheme: const BottomNavigationBarThemeData(
     type: BottomNavigationBarType.fixed,
     selectedItemColor: defaultColor,
     backgroundColor: grey,

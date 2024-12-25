@@ -26,8 +26,8 @@ class ChatScreen extends StatelessWidget {
           ),
           builder: (context) => ConditionalBuilder(
             condition: cubit.users!.isNotEmpty,
-            fallback: (context) => Center(
-              child: Text('No users yet!'),
+            fallback: (context) => const Center(
+              child:  Text('No users yet!'),
             ),
             builder: (context) => Container(
               padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),

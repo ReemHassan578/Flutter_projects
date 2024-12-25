@@ -2,6 +2,8 @@ import 'package:chat2/shared/netwok/remote/http_helper.dart';
 import 'package:http/http.dart' as http;
 import 'package:googleapis_auth/auth_io.dart' as auth;
 
+import 'end_points.dart';
+
 class FcmHelper {
   static getGoogleAccessToken() async {
     var serviceAccountJson = googleAccountJson;
