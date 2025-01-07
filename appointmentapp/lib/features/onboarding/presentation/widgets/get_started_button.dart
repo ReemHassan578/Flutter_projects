@@ -22,7 +22,7 @@ class GetStartedButton extends StatelessWidget {
           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
         ),
         onPressed: () {
-          context.pushNamed(Routes.loginScreen);
+          context.pushReplacementNamed(Routes.loginScreen);
         },
         child: Text('Get Started', style: TextStyles.font16Grey600Weight),
       ),

@@ -16,7 +16,7 @@ class DocApp extends StatelessWidget {
       minTextAdapt: true,
       splitScreenMode: true,
       child: MaterialApp(
-        initialRoute: Routes.onBoardingScreen,
+        initialRoute: Routes.splashScreen,
         onGenerateRoute: appRouter.generateRoute,
         debugShowCheckedModeBanner: false,
         theme: ThemeData(

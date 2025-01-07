@@ -1,3 +1,4 @@
+import 'package:appointmentapp/features/splash/presentation/screens/splash.dart';
 import 'package:flutter/material.dart';
 
 import '../../features/login/presentation/screens/login.dart';
@@ -10,19 +11,19 @@ class AppRouter {
       case Routes.onBoardingScreen:
         return MaterialPageRoute(
           builder: (context) {
-            return OnBoardingScreen();
+            return const OnBoardingScreen();
           },
         );
-      /*   case Routes.homeScreen :
+      case Routes.splashScreen:
         return MaterialPageRoute(
           builder: (context) {
-            return HomeScreen();
+            return const SplashScreen();
           },
-        ); */
+        );
       case Routes.loginScreen:
         return MaterialPageRoute(
           builder: (context) {
-            return LoginScreen();
+            return const LoginScreen();
           },
         );
       default:
