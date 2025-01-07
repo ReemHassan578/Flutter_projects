@@ -1,4 +1,3 @@
-import 'package:appointmentapp/features/splash/presentation/screens/splash.dart';
 import 'package:flutter/material.dart';
 
 import '../../features/login/presentation/screens/login.dart';
@@ -14,12 +13,7 @@ class AppRouter {
             return const OnBoardingScreen();
           },
         );
-      case Routes.splashScreen:
-        return MaterialPageRoute(
-          builder: (context) {
-            return const SplashScreen();
-          },
-        );
+    
       case Routes.loginScreen:
         return MaterialPageRoute(
           builder: (context) {
