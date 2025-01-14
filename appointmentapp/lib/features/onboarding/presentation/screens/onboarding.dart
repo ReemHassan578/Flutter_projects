@@ -1,10 +1,12 @@
+import 'package:appointmentapp/core/helpers/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../core/routing/routes.dart';
 import '../../../../core/theming/styles.dart';
+import '../../../../core/widgets/button.dart';
 import '../widgets/doc_logo_and_name.dart';
 import '../widgets/doctor_image_and_text.dart';
-import '../widgets/get_started_button.dart';
 
 class OnBoardingScreen extends StatelessWidget {
   const OnBoardingScreen({super.key});
@@ -29,7 +31,16 @@ class OnBoardingScreen extends StatelessWidget {
                     style: TextStyles.font13GreyRegular,
                   ),
                 ),
-                const GetStartedButton(),
+                 Button(button: TextButton(
+        style: TextButton.styleFrom(
+          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+        ),
+        onPressed: () {
+          context.pushReplacementNamed(Routes.loginScreen);
+        },
+        child: Text('Get Started', style: TextStyles.font16GreySemiBold),
+      ),width:311,
+      ),
               ],
             ),
           ),

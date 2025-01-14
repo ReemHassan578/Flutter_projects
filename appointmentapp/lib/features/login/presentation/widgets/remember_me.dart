@@ -33,7 +33,11 @@ class _RememberMeState extends State<RememberMe> {
               child: Checkbox(
                 activeColor: MyColors.bluePrimaryColor,
                 value: rememberPressed,
-                onChanged: (value) {},
+                onChanged: (value) {
+                  setState(() {
+                    rememberPressed = !rememberPressed;
+                  });
+                },
                 side: const BorderSide(color: MyColors.lightGreyBorder),
               ),
             ),

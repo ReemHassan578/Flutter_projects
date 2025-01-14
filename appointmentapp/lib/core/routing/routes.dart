@@ -3,4 +3,6 @@ class Routes {
   static const loginScreen = '/loginScreen';
   static const onBoardingScreen = '/onBoarding';
   static const splashScreen = '/splashScreen';
+  static const signUpScreen = '/signUpScreen';
+
 }
