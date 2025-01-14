@@ -1,22 +1,22 @@
 import 'package:appointmentapp/core/helpers/extensions.dart';
 import 'package:appointmentapp/core/helpers/spacing.dart';
 import 'package:appointmentapp/core/theming/colors.dart';
-import 'package:appointmentapp/features/login/domain/cubit/login_cubit.dart';
-import 'package:appointmentapp/features/login/domain/cubit/login_states.dart';
-import 'package:appointmentapp/features/login/presentation/widgets/do_not_have_account_text.dart';
-import 'package:appointmentapp/features/login/presentation/widgets/remember_me.dart';
+
+import 'package:appointmentapp/features/signup/domain/cubit/register_cubit.dart';
+import 'package:appointmentapp/features/signup/domain/cubit/register_states.dart';
+import 'package:appointmentapp/features/signup/presentation/widgets/sign_up_form.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../../../core/theming/styles.dart';
+import '../../../../../../core/widgets/button.dart';
 import '../../../../core/routing/routes.dart';
-import '../../../../core/theming/styles.dart';
-import '../../../../core/widgets/button.dart';
-import '../widgets/email_and_password.dart';
-import '../widgets/terms_and_conditions_text.dart';
+import '../../../login/presentation/widgets/terms_and_conditions_text.dart';
+import '../widgets/already_have_account_text.dart';
 
-class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+class SignUpScreen extends StatelessWidget {
+  const SignUpScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -30,30 +30,16 @@ class LoginScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Welcome Back',
+                  'Create Account',
                   style: TextStyles.font24BlackBold
                       .copyWith(color: MyColors.bluePrimaryColor),
                 ),
                 Text(
-                  'We\'re excited to have you back, can\'t wait to see what you\'ve been up to since you last logged in.',
+                  "Sign up now and start exploring all that our app has to offer. We're excited to welcome you to our community!",
                   style: TextStyles.font14GreyRegular,
                 ),
                 verticalSpace(10),
-          const      EmailAndPassword(),
-                Row(
-                  children: [
-                    const RememberMe(),
-                    const Spacer(),
-                    TextButton(
-                      onPressed: () {},
-                      child: Text(
-                        'Forget Password ?',
-                        style: TextStyles.font12lightGreyRegular
-                            .copyWith(color: MyColors.bluePrimaryColor),
-                      ),
-                    ),
-                  ],
-                ),
+                const SignUpForm(),
                 Button(
                   padding: EdgeInsetsDirectional.symmetric(
                       horizontal: 12.w, vertical: 12.h),
@@ -64,17 +50,15 @@ class LoginScreen extends StatelessWidget {
                     ),
                     onPressed: () {
                       if (context
-                          .read<LoginCubit>()
+                          .read<RegisterCubit>()
                           .formKey
                           .currentState!
                           .validate()) {
-                       
-                        context
-                            .read<LoginCubit>()
-                            .emitLoginState();
+                        context.read<RegisterCubit>().register();
                       }
                     },
-                    child: Text('Login', style: TextStyles.font16GreySemiBold),
+                    child: Text('Create Account',
+                        style: TextStyles.font16GreySemiBold),
                   ),
                 ),
                 verticalSpace(20),
@@ -92,7 +76,7 @@ class LoginScreen extends StatelessWidget {
                 ]),
                 verticalSpace(20),
                 const TermsAndConditionsText(),
-                const DoNotHaveAccountText(),
+                const AlreadyHaveAccountText(),
                 buildBlocLister(),
               ],
             ),
@@ -103,7 +87,7 @@ class LoginScreen extends StatelessWidget {
   }
 
   Widget buildBlocLister() {
-    return BlocListener<LoginCubit, LoginStates>(
+    return BlocListener<RegisterCubit, RegisterStates>(
       listenWhen: (previous, current) {
         return (current is Loading || current is Success || current is Failure);
       },
@@ -111,8 +95,21 @@ class LoginScreen extends StatelessWidget {
         state.whenOrNull(
           success: (data) {
             context.pop();
-
-             context.pushNamed(Routes.homeScreen);
+            final alertDialog = AlertDialog(
+              content: Text('Done'),
+              actions: [
+                TextButton(
+                    onPressed: () {
+                      context.pop();
+                      context.pushNamed(Routes.loginScreen);
+                    },
+                    child: Text('login'))
+              ],
+            );
+            showDialog(
+              context: context,
+              builder: (context) => alertDialog,
+            );
           },
           failure: (error) {
             final alertDialog = AlertDialog(

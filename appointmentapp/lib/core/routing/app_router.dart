@@ -1,4 +1,9 @@
+import 'package:appointmentapp/core/di/dependency_injection.dart';
+import 'package:appointmentapp/features/login/domain/cubit/login_cubit.dart';
+import 'package:appointmentapp/features/signup/domain/cubit/register_cubit.dart';
+import 'package:appointmentapp/features/signup/presentation/screens/signup.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../features/login/presentation/screens/login.dart';
 import '../../features/onboarding/presentation/screens/onboarding.dart';
@@ -13,11 +18,23 @@ class AppRouter {
             return const OnBoardingScreen();
           },
         );
-    
+
       case Routes.loginScreen:
         return MaterialPageRoute(
           builder: (context) {
-            return  LoginScreen();
+            return BlocProvider(
+              create: (context) => getIt<LoginCubit>(),
+              child: LoginScreen(),
+            );
+          },
+        );
+         case Routes.signUpScreen:
+        return MaterialPageRoute(
+          builder: (context) {
+            return BlocProvider(
+              create: (context) => getIt<RegisterCubit>(),
+              child: SignUpScreen(),
+            );
           },
         );
       default:
