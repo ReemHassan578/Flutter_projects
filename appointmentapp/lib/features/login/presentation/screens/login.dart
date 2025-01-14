@@ -127,7 +127,7 @@ class LoginScreen extends StatelessWidget {
                     onPressed: () {
                       context.pop();
                     },
-                    child: Text('Got It'))
+                    child: const Text('Got It'))
               ],
             );
             context.pop();

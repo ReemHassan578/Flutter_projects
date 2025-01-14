@@ -96,14 +96,14 @@ class SignUpScreen extends StatelessWidget {
           success: (data) {
             context.pop();
             final alertDialog = AlertDialog(
-              content: Text('Done'),
+              content: const Text('Done'),
               actions: [
                 TextButton(
                     onPressed: () {
                       context.pop();
                       context.pushNamed(Routes.loginScreen);
                     },
-                    child: Text('login'))
+                    child: const Text('login'))
               ],
             );
             showDialog(
@@ -124,7 +124,7 @@ class SignUpScreen extends StatelessWidget {
                     onPressed: () {
                       context.pop();
                     },
-                    child: Text('Got It'))
+                    child: const Text('Got It'))
               ],
             );
             context.pop();

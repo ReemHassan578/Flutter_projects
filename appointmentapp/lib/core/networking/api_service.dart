@@ -1,5 +1,4 @@
 import 'package:appointmentapp/core/networking/api_constants.dart';
-import 'package:appointmentapp/core/networking/dio_factory.dart';
 import 'package:appointmentapp/features/login/data/models/login_request_body.dart';
 import 'package:appointmentapp/features/login/data/models/login_response.dart';
 import 'package:appointmentapp/features/signup/data/models/register_response.dart';

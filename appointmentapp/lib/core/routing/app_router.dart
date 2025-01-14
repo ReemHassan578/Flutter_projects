@@ -24,7 +24,7 @@ class AppRouter {
           builder: (context) {
             return BlocProvider(
               create: (context) => getIt<LoginCubit>(),
-              child: LoginScreen(),
+              child: const LoginScreen(),
             );
           },
         );
@@ -33,7 +33,7 @@ class AppRouter {
           builder: (context) {
             return BlocProvider(
               create: (context) => getIt<RegisterCubit>(),
-              child: SignUpScreen(),
+              child: const SignUpScreen(),
             );
           },
         );
