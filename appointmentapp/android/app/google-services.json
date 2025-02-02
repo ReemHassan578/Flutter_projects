@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "818890676356",
+    "firebase_url": "https://test-ddaff-default-rtdb.firebaseio.com",
+    "project_id": "test-ddaff",
+    "storage_bucket": "test-ddaff.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:818890676356:android:3f65add6ab8f019f240ad1",
+        "android_client_info": {
+          "package_name": "com.appointment.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDHe1b3Q0kQW9z56blB72S7JMAmq0g5wcg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
