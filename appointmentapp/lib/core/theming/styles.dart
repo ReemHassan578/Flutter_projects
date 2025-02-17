@@ -48,4 +48,16 @@ class TextStyles {
     color: MyColors.lightGrey,
     fontWeight: FontWeightHelper.regular,
   );
+
+   static TextStyle font18BlackBold = TextStyle(
+    fontSize: 18.sp,
+    color: MyColors.black,
+    fontWeight: FontWeightHelper.bold,
+  );
+
+   static TextStyle font11DarkGreyRegular = TextStyle(
+    fontSize: 11.sp,
+    color: MyColors.darkGrey,
+    fontWeight: FontWeightHelper.regular,
+  );
 }

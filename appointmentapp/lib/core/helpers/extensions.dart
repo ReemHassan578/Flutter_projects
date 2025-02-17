@@ -30,3 +30,7 @@ extension NavigatorHelper on BuildContext {
 
   void pop() => Navigator.of(this).pop();
 }
+
+extension StringHelper on String? {
+  isNullOrEmpty() => this == null || this == '';
+}

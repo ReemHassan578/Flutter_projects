@@ -43,7 +43,7 @@ android {
          create("development") {
             dimension  "default"
             resValue("string","app_name", "Doc Doc Debug")
-            applicationIdSuffix ".dev"
+           // applicationIdSuffix ".dev"
         }
     }
    

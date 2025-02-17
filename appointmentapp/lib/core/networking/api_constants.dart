@@ -4,6 +4,3 @@ class ApiConstants {
   static const register = 'auth/register';
 }
 
-class ApiErrors {
-  // static const
-}

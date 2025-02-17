@@ -121,7 +121,7 @@ class LoginScreen extends StatelessWidget {
                 size: 26.sp,
               ),
               iconColor: MyColors.redValidateError,
-              content: Text(error),
+              content: Text(error.getAllErrorMessages()),
               actions: [
                 TextButton(
                     onPressed: () {
