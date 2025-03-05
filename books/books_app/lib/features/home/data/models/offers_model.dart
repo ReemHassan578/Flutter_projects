@@ -7,15 +7,15 @@ part 'offers_model.g.dart';
 class Offers {
   final int finskyOfferType;
   @JsonKey(name: 'listPrice')
-  final ListPriceOffers listPriceOffers;
-  final ListPriceOffers retailPrice;
+  final ListPriceOffers? listPriceOffers;
+  final ListPriceOffers? retailPrice;
   final bool? giftable;
   final RentalDuration? rentalDuration;
 
   Offers(
       {required this.finskyOfferType,
-      required this.listPriceOffers,
-      required this.retailPrice,
+       this.listPriceOffers,
+       this.retailPrice,
        this.giftable,
        this.rentalDuration});
   factory Offers.fromJson(Map<String, dynamic> json) => _$OffersFromJson(json);

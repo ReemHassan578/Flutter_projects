@@ -17,8 +17,10 @@ Items _$ItemsFromJson(Map<String, dynamic> json) => Items(
           SaleInfoModel.fromJson(json['saleInfo'] as Map<String, dynamic>),
       accessInfo:
           AccessInfoModel.fromJson(json['accessInfo'] as Map<String, dynamic>),
-      searchInfo:
-          SearchInfoModel.fromJson(json['searchInfo'] as Map<String, dynamic>),
+      searchInfo: json['searchInfo'] == null
+          ? null
+          : SearchInfoModel.fromJson(
+              json['searchInfo'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$ItemsToJson(Items instance) => <String, dynamic>{

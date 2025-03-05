@@ -18,19 +18,19 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$ApiResult<T> {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(T data) success,
+    required TResult Function(T dataaa) success,
     required TResult Function(ApiErrorModel error) failure,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(T data)? success,
+    TResult? Function(T dataaa)? success,
     TResult? Function(ApiErrorModel error)? failure,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(T data)? success,
+    TResult Function(T dataaa)? success,
     TResult Function(ApiErrorModel error)? failure,
     required TResult orElse(),
   }) =>
@@ -83,7 +83,7 @@ abstract class _$$SuccessImplCopyWith<T, $Res> {
           _$SuccessImpl<T> value, $Res Function(_$SuccessImpl<T>) then) =
       __$$SuccessImplCopyWithImpl<T, $Res>;
   @useResult
-  $Res call({T data});
+  $Res call({T dataaa});
 }
 
 /// @nodoc
@@ -99,12 +99,12 @@ class __$$SuccessImplCopyWithImpl<T, $Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? data = freezed,
+    Object? dataaa = freezed,
   }) {
     return _then(_$SuccessImpl<T>(
-      freezed == data
-          ? _value.data
-          : data // ignore: cast_nullable_to_non_nullable
+      freezed == dataaa
+          ? _value.dataaa
+          : dataaa // ignore: cast_nullable_to_non_nullable
               as T,
     ));
   }
@@ -113,14 +113,14 @@ class __$$SuccessImplCopyWithImpl<T, $Res>
 /// @nodoc
 
 class _$SuccessImpl<T> implements Success<T> {
-  _$SuccessImpl(this.data);
+  _$SuccessImpl(this.dataaa);
 
   @override
-  final T data;
+  final T dataaa;
 
   @override
   String toString() {
-    return 'ApiResult<$T>.success(data: $data)';
+    return 'ApiResult<$T>.success(dataaa: $dataaa)';
   }
 
   @override
@@ -128,12 +128,12 @@ class _$SuccessImpl<T> implements Success<T> {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$SuccessImpl<T> &&
-            const DeepCollectionEquality().equals(other.data, data));
+            const DeepCollectionEquality().equals(other.dataaa, dataaa));
   }
 
   @override
   int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(data));
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(dataaa));
 
   /// Create a copy of ApiResult
   /// with the given fields replaced by the non-null parameter values.
@@ -146,30 +146,30 @@ class _$SuccessImpl<T> implements Success<T> {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(T data) success,
+    required TResult Function(T dataaa) success,
     required TResult Function(ApiErrorModel error) failure,
   }) {
-    return success(data);
+    return success(dataaa);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(T data)? success,
+    TResult? Function(T dataaa)? success,
     TResult? Function(ApiErrorModel error)? failure,
   }) {
-    return success?.call(data);
+    return success?.call(dataaa);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(T data)? success,
+    TResult Function(T dataaa)? success,
     TResult Function(ApiErrorModel error)? failure,
     required TResult orElse(),
   }) {
     if (success != null) {
-      return success(data);
+      return success(dataaa);
     }
     return orElse();
   }
@@ -207,9 +207,9 @@ class _$SuccessImpl<T> implements Success<T> {
 }
 
 abstract class Success<T> implements ApiResult<T> {
-  factory Success(final T data) = _$SuccessImpl<T>;
+  factory Success(final T dataaa) = _$SuccessImpl<T>;
 
-  T get data;
+  T get dataaa;
 
   /// Create a copy of ApiResult
   /// with the given fields replaced by the non-null parameter values.
@@ -286,7 +286,7 @@ class _$FailureImpl<T> implements Failure<T> {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(T data) success,
+    required TResult Function(T dataaa) success,
     required TResult Function(ApiErrorModel error) failure,
   }) {
     return failure(error);
@@ -295,7 +295,7 @@ class _$FailureImpl<T> implements Failure<T> {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(T data)? success,
+    TResult? Function(T dataaa)? success,
     TResult? Function(ApiErrorModel error)? failure,
   }) {
     return failure?.call(error);
@@ -304,7 +304,7 @@ class _$FailureImpl<T> implements Failure<T> {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(T data)? success,
+    TResult Function(T dataaa)? success,
     TResult Function(ApiErrorModel error)? failure,
     required TResult orElse(),
   }) {

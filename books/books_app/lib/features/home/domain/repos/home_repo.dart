@@ -3,5 +3,5 @@ import '../entities/book_entity.dart';
 
 abstract class HomeRepo {
   
-  Future<ApiResult<List<BookEntity>>> getAllBooks();
+  Future<ApiResult<List<BookEntity>>> getAllBooks(int currentPage);
 }

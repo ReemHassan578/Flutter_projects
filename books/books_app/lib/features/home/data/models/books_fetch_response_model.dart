@@ -22,7 +22,7 @@ class BooksFetchResponse {
           (book) => BookEntity(book.id,
               image: book.volumeInfo.imageLinks.smallThumbnail,
               title: book.volumeInfo.title,
-              authorName: book.volumeInfo.authors[0],
+              authorName: book.volumeInfo.authors?[0] ?? 'unknown',
               price: book.saleInfo.listPrice?.amount,
               rating: 2.4),
         )

@@ -13,14 +13,14 @@ class HomeRepoImp extends HomeRepo {
       {required this.homeLocalDataSource, required this.homeRemoteDataSource});
 
   @override
-  Future<ApiResult<List<BookEntity>>> getAllBooks() async {
+  Future<ApiResult<List<BookEntity>>> getAllBooks(int currentPage) async {
     try {
       List<BookEntity> allBooks;
-      if (homeLocalDataSource.hasCachedBooks()) {
-         allBooks = homeLocalDataSource.getCachedBooks();
+      if (homeLocalDataSource.hasCachedBooks( currentPage)) {
+         allBooks = homeLocalDataSource.getCachedBooks(currentPage);
         return ApiResult.success(allBooks);
       } else {
-        var booksFetchResponse = await homeRemoteDataSource.getAllBooks();
+        var booksFetchResponse = await homeRemoteDataSource.getAllBooks(currentPage);
          allBooks = booksFetchResponse.mappingToBookEntity();
         homeLocalDataSource.cacheAllBooks(allBooks);
         return ApiResult.success(allBooks);

@@ -8,10 +8,13 @@ part of 'offers_model.dart';
 
 Offers _$OffersFromJson(Map<String, dynamic> json) => Offers(
       finskyOfferType: (json['finskyOfferType'] as num).toInt(),
-      listPriceOffers:
-          ListPriceOffers.fromJson(json['listPrice'] as Map<String, dynamic>),
-      retailPrice:
-          ListPriceOffers.fromJson(json['retailPrice'] as Map<String, dynamic>),
+      listPriceOffers: json['listPrice'] == null
+          ? null
+          : ListPriceOffers.fromJson(json['listPrice'] as Map<String, dynamic>),
+      retailPrice: json['retailPrice'] == null
+          ? null
+          : ListPriceOffers.fromJson(
+              json['retailPrice'] as Map<String, dynamic>),
       giftable: json['giftable'] as bool?,
       rentalDuration: json['rentalDuration'] == null
           ? null

@@ -12,7 +12,7 @@ abstract class HomeRemoteDataSource {
   factory HomeRemoteDataSource(Dio dio, {String baseUrl}) = _HomeRemoteDataSource;
 
  @GET(ApiEndPoints.allBooks)
-  Future<BooksFetchResponse> getAllBooks();
+  Future<BooksFetchResponse> getAllBooks(@Query("startIndex") int currentPage);
 
 
 }

@@ -16,7 +16,7 @@ class Items {
   final VolumeInfoModel volumeInfo;
   final SaleInfoModel saleInfo;
   final AccessInfoModel accessInfo;
-  final SearchInfoModel searchInfo;
+  final SearchInfoModel? searchInfo;
 
   Items(
       {required this.kind,
@@ -26,7 +26,7 @@ class Items {
       required this.volumeInfo,
       required this.saleInfo,
       required this.accessInfo,
-      required this.searchInfo});
+       this.searchInfo});
 
   factory Items.fromJson(Map<String, dynamic> json) => _$ItemsFromJson(json);
 }

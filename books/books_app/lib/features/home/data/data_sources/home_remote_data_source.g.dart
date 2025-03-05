@@ -24,9 +24,9 @@ class _HomeRemoteDataSource implements HomeRemoteDataSource {
   final ParseErrorLogger? errorLogger;
 
   @override
-  Future<BooksFetchResponse> getAllBooks() async {
+  Future<BooksFetchResponse> getAllBooks(int currentPage) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'startIndex': currentPage};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<BooksFetchResponse>(Options(

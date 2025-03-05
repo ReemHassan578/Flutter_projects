@@ -1,3 +1,5 @@
+import 'package:books_app/core/networking/api_result.dart';
+import 'package:books_app/features/home/domain/entities/book_entity.dart';
 import 'package:books_app/features/home/domain/repos/home_repo.dart';
 
 class FetchAllBooksUseCase {
@@ -5,7 +7,7 @@ class FetchAllBooksUseCase {
 
   FetchAllBooksUseCase({required this.homeRepo});
 
-  fetchAllBooks() {
-    homeRepo.getAllBooks();
+  Future<ApiResult<List<BookEntity>>> fetchAllBooks(int currentPage) {
+   return homeRepo.getAllBooks(currentPage);
   }
 }
